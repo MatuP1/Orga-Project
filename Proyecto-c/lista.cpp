@@ -1,21 +1,26 @@
 #include "lista.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 
 void crear_lista(tLista* l)
 {
-    l= tPosicion;//typedef struct celda * tPosicion.
-    l.elemento=null;//elemento nulo.
-    l.siguiente=null;//el puntero al sig elemento es nulo.
+    l=(struct celda**) malloc(sizeof(struct celda));
+    l->elemento=NULL;//elemento nulo.
+    l->siguiente=NULL;//el puntero al sig elemento es nulo.
 
 }
 
 void l_insertar(tLista l, tPosicion p, tElemento e)
 {
+    //Averiguar si P esta apuntando a B por que es con posicion indirecta, ent para que sirve l o si apunta a c y tengo q recorrer l.
 
 }
 
 void l_eliminar(tLista l, tPosicion p, void(* fEliminar)(tElemento))
 {
+    if(l_ultima(l)==p)//chequea si la posicion p es valida.
+        exit("LST_POSICION_INVALIDA");
+
 
 }
 
