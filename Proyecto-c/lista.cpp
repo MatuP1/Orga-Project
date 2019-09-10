@@ -1,11 +1,11 @@
 #include "lista.h"
 
-lista::lista()
-{
-    //ctor
-}
+
 void crear_lista(tLista* l)
 {
+    l= tPosicion;//typedef struct celda * tPosicion.
+    l.elemento=null;//elemento nulo.
+    l.siguiente=null;//el puntero al sig elemento es nulo.
 
 }
 
