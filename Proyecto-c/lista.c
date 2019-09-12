@@ -47,7 +47,7 @@ void l_destruir(tLista* l, void (*fEliminar)(tElemento))
 
 tElemento l_recuperar(tLista l, tPosicion p)
 {
-
+    return (p->siguiente->elemento);
 }
 
 tPosicion l_primera(tLista l)
