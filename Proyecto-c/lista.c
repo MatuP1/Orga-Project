@@ -63,12 +63,20 @@ tPosicion l_primera(tLista l)
 
 tPosicion l_siguiente(tLista l, tPosicion p)
 {
-
+    if((p) == l_ultima(l))
+        exit (LST_NO_EXISTE_SIGUIENTE);
+    return p->siguiente->siguiente;
 }
 
 tPosicion l_anterior(tLista l, tPosicion p)
 {
-
+    if(p == l_primera(l))
+        exit(LST_NO_EXISTE_ANTERIOR);
+    tPosicion anterior=l->siguiente;
+    while (anterior->siguiente->siguiente != p){
+        anterior=anterior->siguiente;
+    }
+    return anterior;
 }
 
 tPosicion l_ultima(tLista l)
