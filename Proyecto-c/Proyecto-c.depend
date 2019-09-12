@@ -14,8 +14,13 @@
 
 1568224754 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\lista.h
 
-1568229808 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testlista.c
+1568304491 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testlista.c
 	<stdlib.h>
 	<stdio.h>
+	"LISTA.h"
+
+1568325988 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\lista.c
 	"lista.h"
+	<stdio.h>
+	<stdlib.h>
 
