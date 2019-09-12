@@ -23,12 +23,14 @@ void l_insertar(tLista l, tPosicion p, tElemento e) //asumiendo posicion indirec
 
 }
 
-void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento)) //quien hace fEliminar
+void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento))
 {
     if(l_ultima(l)==p)//chequea si la posicion p es valida.
-        exit(3); //Lista Posicion Invalida;
-
-
+        exit(LST_POSICION_INVALIDA); //Lista Posicion Invalida;
+    tPosicion aux=p->siguiente;
+    p->siguiente=((p->siguiente)->siguiente); //Creo que esta bien
+    fEliminar(aux->elemento);
+    free(aux); //libero el espacio de la celda a eliminar
 }
 
 void l_destruir(tLista* l, void (*fEliminar)(tElemento))

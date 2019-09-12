@@ -36,7 +36,9 @@
 		<Unit filename="TestLista.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="lista.cpp" />
+		<Unit filename="lista.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="lista.h" />
 		<Extensions>
 			<code_completion />
