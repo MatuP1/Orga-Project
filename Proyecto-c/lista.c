@@ -19,7 +19,7 @@ void l_insertar(tLista l, tPosicion p, tElemento e) //asumiendo posicion indirec
     nuevaCelda->elemento=e;
     nuevaCelda->siguiente=(p->siguiente);
     p->siguiente=nuevaCelda;
-    ///Averiguar si P esta apuntando a B por que es con posicion indirecta, ent para que sirve l o si apunta a c y tengo q recorrer l.
+
 
 }
 
