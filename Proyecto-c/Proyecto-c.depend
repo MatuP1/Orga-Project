@@ -31,10 +31,11 @@
 
 1568152054 d:\universidad\orga\proyecto\orga-project\proyecto-c\lista.h
 
-1568632589 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testlista.c
+1568634320 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testlista.c
 	<stdlib.h>
 	<stdio.h>
 	"LISTA.h"
+	"felim.h"
 
 1568632808 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\felim.c
 	"felim.h"

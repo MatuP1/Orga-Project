@@ -26,7 +26,7 @@ void l_insertar(tLista l, tPosicion p, tElemento e) //asumiendo posicion indirec
 void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento))
 {
     if(l_ultima(l)==p)//chequea si la posicion p es valida.
-        exit(LST_POSICION_INVALIDA); //Lista Posicion Invalida;
+        exit(4); //Lista Posicion Invalida;
     tPosicion aux=p->siguiente;
     p->siguiente=((p->siguiente)->siguiente); //Creo que esta bien
     fEliminar(aux->elemento);
@@ -48,7 +48,7 @@ void l_destruir(tLista* l, void (*fEliminar)(tElemento))
 tElemento l_recuperar(tLista l, tPosicion p)
 {
     if(p==l_ultima(l))
-        exit(LST_POSICION_INVALIDA);
+        exit(4);
     return (p->siguiente->elemento);
 }
 
@@ -64,14 +64,14 @@ tPosicion l_primera(tLista l)
 tPosicion l_siguiente(tLista l, tPosicion p)
 {
     if((p) == l_ultima(l))
-        exit (LST_NO_EXISTE_SIGUIENTE);
+        exit (2);
     return p->siguiente->siguiente;
 }
 
 tPosicion l_anterior(tLista l, tPosicion p)
 {
     if(p == l_primera(l))
-        exit(LST_NO_EXISTE_ANTERIOR);
+        exit(3);
     tPosicion anterior=l->siguiente;
     while (anterior->siguiente->siguiente != p){
         anterior=anterior->siguiente;
