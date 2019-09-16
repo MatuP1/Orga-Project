@@ -4,7 +4,7 @@
 
 int main ()
 {
-    tLista* lista_prueba;
+    tLista* lista_prueba=NULL;
     crear_lista(lista_prueba);
     ///Prueba de la funciones con lista vacia.
 
