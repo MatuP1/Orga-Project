@@ -36,10 +36,6 @@
 		<Unit filename="TestLista.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="felim.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="felim.h" />
 		<Unit filename="lista.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -14,12 +14,12 @@
 
 1568224754 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\lista.h
 
-1568304491 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testlista.c
+1568738490 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testlista.c
 	<stdlib.h>
 	<stdio.h>
 	"LISTA.h"
 
-1568325988 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\lista.c
+1568739105 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
@@ -42,4 +42,10 @@
 	<stdlib.h>
 
 1568632589 d:\universidad\orga\proyecto\orga-project\proyecto-c\felim.h
+
+1568728381 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\felim.c
+	"felim.h"
+	<stdlib.h>
+
+1568728381 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\felim.h
 

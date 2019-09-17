@@ -4,10 +4,8 @@
 
 void crear_lista(tLista* l)
 {
-    struct celda Centinela;
-    tLista lista=(struct celda*) malloc(sizeof(struct celda));
-    lista=&Centinela;
-    l=&lista;
+    *l=(tPosicion) malloc(sizeof(struct celda));
+    //*l=&lista;
     (*l) -> elemento=NULL; ///elemento nulo.
     (*l) -> siguiente=NULL; ///el puntero al sig elemento es nulo.
 
@@ -15,20 +13,19 @@ void crear_lista(tLista* l)
 
 void l_insertar(tLista l, tPosicion p, tElemento e) //asumiendo posicion indirecta
 {
-    struct celda * nuevaCelda=(struct celda*) malloc(sizeof(struct celda));
+    tPosicion nuevaCelda=(tPosicion) malloc(sizeof(struct celda));
     nuevaCelda->elemento=e;
-    nuevaCelda->siguiente=(p->siguiente);
+    nuevaCelda->siguiente=p->siguiente;
     p->siguiente=nuevaCelda;
-
-
 }
 
 void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento))
 {
-    if(l_ultima(l)==p)//chequea si la posicion p es valida.
-        exit(4); //Lista Posicion Invalida;
+    if(l_fin(l)==p)//chequea si la posicion p es valida.
+            exit(LST_POSICION_INVALIDA); //Lista Posicion Invalida;
+
     tPosicion aux=p->siguiente;
-    p->siguiente=((p->siguiente)->siguiente); //Creo que esta bien
+    p->siguiente=(aux->siguiente); //Creo que esta bien
     fEliminar(aux->elemento);
     free(aux); //libero el espacio de la celda a eliminar
 }
@@ -47,31 +44,27 @@ void l_destruir(tLista* l, void (*fEliminar)(tElemento))
 
 tElemento l_recuperar(tLista l, tPosicion p)
 {
-    if(p==l_ultima(l))
-        exit(4);
+    if(p==l_fin(l))
+        exit(LST_POSICION_INVALIDA);
     return (p->siguiente->elemento);
 }
 
 tPosicion l_primera(tLista l)
 {
-    tPosicion ret = l;
-    if(l->siguiente != NULL){
-        ret = l->siguiente;
-    }
-    return ret;
+    return l;
 }
 
 tPosicion l_siguiente(tLista l, tPosicion p)
 {
     if((p) == l_ultima(l))
-        exit (2);
+        exit (LST_NO_EXISTE_SIGUIENTE);
     return p->siguiente->siguiente;
 }
 
 tPosicion l_anterior(tLista l, tPosicion p)
 {
     if(p == l_primera(l))
-        exit(3);
+        exit(LST_NO_EXISTE_ANTERIOR);
     tPosicion anterior=l->siguiente;
     while (anterior->siguiente->siguiente != p){
         anterior=anterior->siguiente;
@@ -93,11 +86,8 @@ tPosicion l_ultima(tLista l)
 
 tPosicion l_fin(tLista l)
 {
-     if(l->siguiente == NULL){
-        return l;
-    }
     tPosicion iterador=l;
-    while(iterador->siguiente !=NULL){
+    while(iterador->siguiente != NULL){
         iterador=iterador->siguiente;
     }
     return iterador;
