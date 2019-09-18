@@ -16,7 +16,7 @@ int main ()
     int * elemGen;
     int valor=6;
     elemGen=&valor;
-    l_primera(lista_prueba);
+    l_primera(lista_prueba); //actualizacion test
     l_insertar(lista_prueba,l_primera(lista_prueba),elemGen);
     int* el=(int*)l_recuperar(lista_prueba,l_primera(lista_prueba));
     printf("%i otra cosa\n %i\n",*el,l_longitud(lista_prueba));
