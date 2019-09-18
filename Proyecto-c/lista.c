@@ -37,7 +37,7 @@ void l_destruir(tLista* l, void (*fEliminar)(tElemento))
     while(l_ultima(*l)!=actual){
         fEliminar(actual->elemento);
         aux=actual;
-        actual=actual->siguiente;
+        actual=(aux->siguiente);
         free(aux);
     }
     free(l);
