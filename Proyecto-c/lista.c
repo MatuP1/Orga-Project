@@ -34,12 +34,13 @@ void l_destruir(tLista* l, void (*fEliminar)(tElemento))
 {
     tPosicion actual=(*l)->siguiente;
     tPosicion aux;
-    while(l_fin(*l)!=actual){
+    while(l_ultima(*l)!=actual){
         fEliminar(actual->elemento);
         aux=actual;
         actual=actual->siguiente;
         free(aux);
     }
+    free(l);
 }
 
 tElemento l_recuperar(tLista l, tPosicion p)
