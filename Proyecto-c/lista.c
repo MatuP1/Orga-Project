@@ -34,7 +34,7 @@ void l_destruir(tLista* l, void (*fEliminar)(tElemento))
 {
     tPosicion actual=(*l)->siguiente;
     tPosicion aux;
-    while(l_ultima(*l)!=actual){
+    while(actual != NULL){
         fEliminar(actual->elemento);
         aux=actual;
         actual=(aux->siguiente);
@@ -57,9 +57,9 @@ tPosicion l_primera(tLista l)
 
 tPosicion l_siguiente(tLista l, tPosicion p)
 {
-    if((p) == l_ultima(l))
+    if((p) == l_fin(l))
         exit (LST_NO_EXISTE_SIGUIENTE);
-    return p->siguiente->siguiente;
+    return p->siguiente;
 }
 
 tPosicion l_anterior(tLista l, tPosicion p)
@@ -67,7 +67,7 @@ tPosicion l_anterior(tLista l, tPosicion p)
     if(p == l_primera(l))
         exit(LST_NO_EXISTE_ANTERIOR);
     tPosicion anterior=l->siguiente;
-    while (anterior->siguiente->siguiente != p){
+    while (anterior->siguiente != p){
         anterior=anterior->siguiente;
     }
     return anterior;
