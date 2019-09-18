@@ -2,21 +2,91 @@
 #include <stdio.h>
 #include "LISTA.h"
 
-tElemento p;
-void fEliminar(tElemento p){
-    free(p);
-    printf("elimino bien\n");
-};
+void fEliminar(tElemento p);
+
+void mostrarLista(tLista lista);
 
 int main ()
 {
-    int * elemGen;
+    int *a,*b,*c,*d,*e;
+
+    a=(int*)malloc(sizeof(int));
+    b=(int*)malloc(sizeof(int));
+    c=(int*)malloc(sizeof(int));
+    d=(int*)malloc(sizeof(int));
+    e=(int*)malloc(sizeof(int));
+
+    *a=0;
+    *b=1;
+    *c=2;
+    *d=3;
+    *e=4;
+
+    //Inicializo lista.
+    tLista lista_prueba;
+    crear_lista(&lista_prueba);
+    printf("Se crea una lista nueva. Longitud: %i\n", l_longitud(lista_prueba));
+
+    //Insertar.
+    l_insertar(lista_prueba,l_primera(lista_prueba),a);
+    printf("Se inserto el '0'. Longitud: %i\n",l_longitud(lista_prueba));
+    mostrarLista(lista_prueba);
+    printf("\n");
+
+    l_insertar(lista_prueba,l_siguiente(lista_prueba,l_primera(lista_prueba)),d);
+    printf("Se inserto el '3'. Longitud: %i\n",l_longitud(lista_prueba));
+    mostrarLista(lista_prueba);
+    printf("\n");
+
+    l_insertar(lista_prueba,l_ultima(lista_prueba),c);
+    printf("Se inserto el '2'. Longitud: %i\n",l_longitud(lista_prueba));
+    mostrarLista(lista_prueba);
+    printf("\n");
+
+    l_insertar(lista_prueba,l_anterior(lista_prueba,l_ultima(lista_prueba)),b);
+    printf("Se inserto el '1'. Longitud: %i\n",l_longitud(lista_prueba));
+    mostrarLista(lista_prueba);
+    printf("\n");
+
+    l_insertar(lista_prueba,l_fin(lista_prueba),e);
+    printf("Se inserto el '4'. Longitud: %i\n",l_longitud(lista_prueba));
+    mostrarLista(lista_prueba);
+    printf("\n");
+
+    //Eliminar.
+    printf("Se elimina el primer elemento de la lista.\n");
+    l_eliminar(lista_prueba, l_primera(lista_prueba), &fEliminar);
+    printf("Longitud: %i\n", l_longitud(lista_prueba));
+    mostrarLista(lista_prueba);
+    printf("\n");
+
+
+
+    printf("Se elimina el anteultimo elemento de la lista.\n");
+    l_eliminar(lista_prueba, l_anterior(lista_prueba, l_ultima(lista_prueba)), &fEliminar);
+    printf("longitud %i\n", l_longitud(lista_prueba));
+    mostrarLista(lista_prueba);
+    printf("\n");
+
+
+
+    printf("Se destruye la lista.\n");
+    l_destruir(&lista_prueba, fEliminar);
+
+
+
+    return 0;
+
+
+
+
+
+    /**int * elemGen;
     int valor=0;
     elemGen=&valor;
     tElemento ver;
-    tLista lista_prueba;///inisializado para prevenir el warning
-    crear_lista(&lista_prueba);///asocia lista_prueba a una celda centinela
-    while(valor<10){           //inserto 100 elementos y los recupero para ver quese inserten correctamente
+
+    while(valor<1){           ///inserto 100 elementos y los recupero para ver quese inserten correctamente
         l_insertar(lista_prueba,l_fin(lista_prueba),&valor); ///Inserto
         ver=l_recuperar(lista_prueba,l_ultima(lista_prueba));   ///Almaceno
         elemGen=(int*) ver;
@@ -28,6 +98,7 @@ int main ()
     printf("longitud de la lista: %i\n",longit);
 
     tPosicion referencia=l_primera(lista_prueba);
+
     ver=l_recuperar(lista_prueba,l_primera(lista_prueba));
     elemGen=(int*)ver;
     printf("primer elemento: %i",*elemGen);
@@ -39,7 +110,7 @@ int main ()
         valor--;
     }
     printf("prueba anterior\n");
-    while(valor<10){
+    while(valor<=1){
         ver=l_recuperar(lista_prueba,referencia);
         elemGen=(int*) ver;
         referencia=l_anterior(lista_prueba,referencia);
@@ -58,5 +129,36 @@ int main ()
         valor--;
     }*/
 
+    //
+
     return 0;
+}
+
+
+
+void fEliminar(tElemento p){
+    free(p);
+    printf("elimino bien\n");
+};
+
+void mostrarLista(tLista lista) {
+
+    tPosicion cursor = l_primera(lista);
+
+    tPosicion finLista = l_fin(lista);
+
+    int* valor;
+
+
+
+    while(cursor != finLista) {
+
+        valor = (int *) l_recuperar(lista, cursor);
+
+        printf("[%i] ", *valor);
+
+        cursor = l_siguiente(lista, cursor);
+
+    }
+    printf("\n");
 }
