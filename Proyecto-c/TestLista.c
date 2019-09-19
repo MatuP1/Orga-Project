@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include "LISTA.h"
 
+int* crearElementoEntero(int v){
+    int* pEnt=(int*) malloc (sizeof(int));
+    *pEnt=v;
+    return pEnt;
+}
 void fEliminar(tElemento p);
 
 void mostrarLista(tLista lista);
@@ -87,40 +92,38 @@ int main ()
     *elemGen=valor;
     tElemento ver;
 
-    while(valor<100){           ///inserto 100 elementos y los recupero para ver quese inserten correctamente
-        l_insertar(lp,l_fin(lp),elemGen); ///Inserto
+    while(valor<10){     ///inserto 10 elementos y los recupero para ver quese inserten correctamente
+
+        l_insertar(lp,l_fin(lp),crearElementoEntero(valor)); ///Inserto
         ver=l_recuperar(lp,l_ultima(lp));   ///Almaceno
         elemGen=(int*) ver;
-        printf("valor: %i\n", *elemGen);                            ///Imprimo
+        printf("valor: %i\n", *elemGen);
         valor++;
-        *elemGen=valor;
     }
 
     int longit=l_longitud(lp);
     printf("longitud de la lista: %i\n",longit);
 
     tPosicion referencia=l_primera(lp);
-
-    ver=l_recuperar(lp,l_primera(lp));
-    elemGen=(int*)ver;
-    printf("primer elemento: %i",*elemGen);
-    while(valor>1){
+    tPosicion fin=l_fin(lp);
+    while(referencia!=fin){
         ver=l_recuperar(lp,referencia);
         elemGen=(int*) ver;
+        printf("elemento: %i\n",*elemGen);
         referencia=l_siguiente(lp,referencia);
-        printf("elemento: %i\n",*elemGen);
-        valor--;
     }
-    printf("prueba anterior\n");
-    while(valor<=1){
+    while(referencia!=l_primera(lp)){
+        referencia=l_anterior(lp,referencia);
         ver=l_recuperar(lp,referencia);
         elemGen=(int*) ver;
-        referencia=l_anterior(lp,referencia);
         printf("elemento: %i\n",*elemGen);
-        valor++;
     }
-
+       /* ver=l_recuperar(lp,referencia);
+        elemGen=(int*) ver;
+        printf("elemento: %i\n",*elemGen);
+        */
     l_destruir(&lp,fEliminar); //destruye la lista, funciona
+    l_anterior(lp,l_primera(lp));
     printf("CHECK");
     ver=l_primera(lp);
     elemGen=(int*) ver;

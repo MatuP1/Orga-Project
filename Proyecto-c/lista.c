@@ -76,7 +76,7 @@ tPosicion l_anterior(tLista l, tPosicion p)
 {
     if(p == l_primera(l))
         exit(LST_NO_EXISTE_ANTERIOR);
-    tPosicion anterior=l->siguiente;
+    tPosicion anterior=l;
     while (anterior->siguiente != p){
         anterior=anterior->siguiente;
     }
