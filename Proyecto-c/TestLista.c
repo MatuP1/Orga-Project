@@ -68,68 +68,69 @@ int main ()
     mostrarLista(lista_prueba);
     printf("\n");
 
-
+    //l_siguiente(lista_prueba,l_fin(lista_prueba));
+    //l_anterior(lista_prueba,l_primera(lista_prueba));
+    //l_recuperar(lista_prueba,l_fin(lista_prueba));
 
     printf("Se destruye la lista.\n");
     l_destruir(&lista_prueba, fEliminar);
 
 
 
-    return 0;
 
 
+    tLista lp;
+    crear_lista(&lp);
 
-
-
-    /**int * elemGen;
+    int * elemGen = (int*) malloc(sizeof(int)) ;
     int valor=0;
-    elemGen=&valor;
+    *elemGen=valor;
     tElemento ver;
 
-    while(valor<1){           ///inserto 100 elementos y los recupero para ver quese inserten correctamente
-        l_insertar(lista_prueba,l_fin(lista_prueba),&valor); ///Inserto
-        ver=l_recuperar(lista_prueba,l_ultima(lista_prueba));   ///Almaceno
+    while(valor<100){           ///inserto 100 elementos y los recupero para ver quese inserten correctamente
+        l_insertar(lp,l_fin(lp),elemGen); ///Inserto
+        ver=l_recuperar(lp,l_ultima(lp));   ///Almaceno
         elemGen=(int*) ver;
         printf("valor: %i\n", *elemGen);                            ///Imprimo
         valor++;
+        *elemGen=valor;
     }
 
-    int longit=l_longitud(lista_prueba);
+    int longit=l_longitud(lp);
     printf("longitud de la lista: %i\n",longit);
 
-    tPosicion referencia=l_primera(lista_prueba);
+    tPosicion referencia=l_primera(lp);
 
-    ver=l_recuperar(lista_prueba,l_primera(lista_prueba));
+    ver=l_recuperar(lp,l_primera(lp));
     elemGen=(int*)ver;
     printf("primer elemento: %i",*elemGen);
     while(valor>1){
-        ver=l_recuperar(lista_prueba,referencia);
+        ver=l_recuperar(lp,referencia);
         elemGen=(int*) ver;
-        referencia=l_siguiente(lista_prueba,referencia);
+        referencia=l_siguiente(lp,referencia);
         printf("elemento: %i\n",*elemGen);
         valor--;
     }
     printf("prueba anterior\n");
     while(valor<=1){
-        ver=l_recuperar(lista_prueba,referencia);
+        ver=l_recuperar(lp,referencia);
         elemGen=(int*) ver;
-        referencia=l_anterior(lista_prueba,referencia);
+        referencia=l_anterior(lp,referencia);
         printf("elemento: %i\n",*elemGen);
         valor++;
     }
-    /**
-    l_destruir(&lista_prueba,fEliminar); //destruye la lista, funciona
+
+    l_destruir(&lp,fEliminar); //destruye la lista, funciona
     printf("CHECK");
-   *//** ver=l_primera(lista_prueba);
+    ver=l_primera(lp);
     elemGen=(int*) ver;
     printf("Si este valor es cero probablemente no destruya bien: %i",*elemGen);
-    */
-    /**while(valor>=0){//Elimino todos los elementos recien insertados mas uno generando el error 4 (si funciona)
-        l_eliminar(lista_prueba,l_ultima(lista_prueba),fEliminar);
-        valor--;
-    }*/
 
-    //
+    while(valor>=0){//Elimino todos los elementos recien insertados mas uno generando el error 4 (si funciona)
+        l_eliminar(lp,l_ultima(lp),fEliminar);
+        valor--;
+    }
+
 
     return 0;
 }

@@ -1,19 +1,23 @@
 #include "lista.h"
 #include <stdio.h>
 #include <stdlib.h>
-
 void crear_lista(tLista* l)
 {
-    *l=(tPosicion) malloc(sizeof(struct celda));
-    //*l=&lista;
+    *l=(tLista) malloc(sizeof(struct celda));
+
+    if(*l==NULL)
+        exit(LST_ERROR_MEMORIA);
+
     (*l) -> elemento=NULL; ///elemento nulo.
     (*l) -> siguiente=NULL; ///el puntero al sig elemento es nulo.
 
 }
 
-void l_insertar(tLista l, tPosicion p, tElemento e) //asumiendo posicion indirecta
+void l_insertar(tLista l, tPosicion p, tElemento e)
 {
     tPosicion nuevaCelda=(tPosicion) malloc(sizeof(struct celda));
+    if(nuevaCelda==NULL)
+        exit(LST_ERROR_MEMORIA);
     nuevaCelda->elemento=e;
     nuevaCelda->siguiente=p->siguiente;
     p->siguiente=nuevaCelda;
@@ -21,12 +25,14 @@ void l_insertar(tLista l, tPosicion p, tElemento e) //asumiendo posicion indirec
 
 void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento))
 {
-    if(l_fin(l)==p)//chequea si la posicion p es valida.
+    if(p->siguiente==NULL)//chequea si la posicion p es valida.
             exit(LST_POSICION_INVALIDA); //Lista Posicion Invalida;
 
     tPosicion aux=p->siguiente;
-    p->siguiente=(aux->siguiente); //Creo que esta bien
+    p->siguiente=(aux->siguiente);
     fEliminar(aux->elemento);
+    aux->elemento=NULL;    //Elimino puntero
+    aux->siguiente=NULL;
     free(aux); //libero el espacio de la celda a eliminar
 }
 
@@ -38,14 +44,18 @@ void l_destruir(tLista* l, void (*fEliminar)(tElemento))
         fEliminar(actual->elemento);
         aux=actual;
         actual=(aux->siguiente);
+
+        aux->elemento=NULL;    //Elimino punteros
+        aux->siguiente=NULL;
         free(aux);
     }
-    free(l);
+    free(*l); //elimino puntero a la lista
+    l=NULL;   //elimino puntero de puntero a la lista
 }
 
 tElemento l_recuperar(tLista l, tPosicion p)
 {
-    if(p==l_fin(l))
+    if(p->siguiente==NULL)
         exit(LST_POSICION_INVALIDA);
     return (p->siguiente->elemento);
 }
@@ -57,7 +67,7 @@ tPosicion l_primera(tLista l)
 
 tPosicion l_siguiente(tLista l, tPosicion p)
 {
-    if((p) == l_fin(l))
+    if(p->siguiente == NULL)
         exit (LST_NO_EXISTE_SIGUIENTE);
     return p->siguiente;
 }
@@ -104,3 +114,4 @@ int l_longitud(tLista l)
     }
     return cont;
 }
+//Lista Corregida 19/9/2019 sin errores
