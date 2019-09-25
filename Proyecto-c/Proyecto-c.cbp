@@ -33,6 +33,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="TestArbol.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="TestLista.c">
 			<Option compilerVar="CC" />
 		</Unit>
