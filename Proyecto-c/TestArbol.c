@@ -4,23 +4,6 @@
 #include "lista.h"
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**Muestra el arbol en preorden.
 
 */
