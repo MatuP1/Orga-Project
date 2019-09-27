@@ -36,7 +36,7 @@ extern void crear_raiz(tArbol a, tElemento e);
 /**
  Inserta y retorna un nuevo nodo en A.
  El nuevo nodo se agrega en A como hijo de NP, hermano izquierdo de NH, y cuyo r�tulo es E.
- Si NH es NULL, el nuevo nodo se agrega como primer hijo de NP.
+ Si NH es NULL, el nuevo nodo se agrega como ultimo hijo de NP.
  Si NH no corresponde a un nodo hijo de NP, finaliza indicando ARB_POSICION_INVALIDA.
  NP direcciona al nodo padre, mientras NH al nodo hermano derecho del nuevo nodo a insertar.
 **/
@@ -48,7 +48,7 @@ extern tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e);
  Si N es la ra�z de A, y a su vez tiene m�s de un hijo, finaliza retornando ARB_OPERACION_INVALIDA.
  Si N no es la ra�z de A y tiene hijos, estos pasan a ser hijos del padre de N, en el mismo orden y a partir de la posici�n que ocupa N en la lista de hijos de su padre.
 **/
-extern void a_eliminar(tArbol a, tNodo pa, void (*fEliminar)(tElemento));
+extern void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento));
 
 /**
  Destruye el �rbol A, elimininando cada uno de sus nodos.
