@@ -101,6 +101,7 @@ void ElimPreOrden(tArbol arbol,tNodo cursor,void(* fEliminar)(tElemento)){
     tNodo finListaHijo = l_fin(cursor->hijos);
     while(cursor != finListaHijo){
         preOrden(arbol,nodoEnListaHijo);
+        nodoEnListaHijo=l_siguiente(arbol,nodoEnListaHijo);
     }
    a_eliminar(arbol,cursor,fEliminar());
 
@@ -111,6 +112,7 @@ tNodo BuscarPreOrden(tArbol arbol,tNodo cursor, tNodo buscado, tNodo encontrado)
     tNodo finListaHijo = l_fin(cursor->hijos);
     while(cursor != finListaHijo && cursor!=buscado){
         preOrden(arbol,nodoEnListaHijo);
+        nodoEnListaHijo=l_siguiente(arbol,nodoEnListaHijo);
     }
     if(cursor==buscado)
         encontrado=buscado;
