@@ -136,36 +136,25 @@ tLista a_hijos(tArbol a, tNodo n)
 void a_sub_arbol(tArbol a, tNodo n, tArbol* sa)
 {
     crear_arbol(sa);
-    crear_raiz(*sa,n->elemento);
-    n->elemento=NULL;
-    n->padre=NULL;
-    subArbolEnPreOrden(a,*sa->raiz,*sa,NULL);
-
-    }
-
+    subArbolEnPreOrden(a,*sa,n->padre,n->padre->hijos,n);
 }
 
-void subArbolEnPreOrden(tArbol arbol,tNodo cursor,tArbol sa, tNodo papa){
-    cursor->padre=papa;
-    tPosicion aux=(celda*) malloc(sizeof(celda));
-    tNodo nuevo=(nodo *) malloc(sizeof(nodo));
-    aux->elemento=nuevo;
-    crear_lista(*nuevo->hijos);
-    l_insertar(cursor->hijos,aux,)
-    /**
-    if(a_raiz(sa)==null)
-        crear_raiz(sa,a_recuperar(cursor));
-    else{
-        a_insertar(sa,);
-    }**/
+/**Recorrido en preOrden.
+*/
+void subArbolEnPreOrden(tArbol arbol,tArbol subArbol,tNodo padre,tLista hijosPadre,tNodo cursor){
 
+    if(a_raiz(subArbol)==null)
+        crear_raiz(cursor);
+    else
+        a_insertar(subArbol,padre,NULL,cursor->elemento);
     tNodo nodoEnListaHijo = l_primera((cursor->hijos));
     tNodo finListaHijo = l_fin(cursor->hijos);
     while(cursor != finListaHijo){
-        tElemento el=a_recuperar(arbol,nodoEnListaHijo);
-        nuevo->elemento=el;
-        subArbolEPpreOrden(arbol,nodoEnListaHijo,sa,nodoEnListaHijo->padre);
-        nodoEnListaHijos=l_siguiente(cursor->hijos,nodoEnListaHijo);
+        preOrden(arbol,subArbol,cursor,cursor->hijos,nodoEnListaHijo);
+        nodoEnListaHijo=l_siguiente(arbol,nodoEnListaHijo);
+        a_eliminar(arbol,cursor,fEliminar());
     }
-}
+
+
+
 }
