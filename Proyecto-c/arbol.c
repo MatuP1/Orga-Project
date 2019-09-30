@@ -1,4 +1,4 @@
-#include <lista.h>
+#include "lista.h"
 #include "arbol.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,19 +16,19 @@ void crear_raiz(tArbol a, tElemento e)
 
     if((a->raiz)!=NULL)
         exit(ARB_OPERACION_INVALIDA);
-    a->raiz=(tNodo *) malloc(sizeof(tNodo));           //reservo espacio raiz
+    a->raiz=(tNodo) malloc(sizeof(struct nodo));           //reservo espacio raiz
     tLista hijosRaiz;                                //reservo lista hijos
     a->raiz->elemento=e;                             //asigno el elemento de la raiz
-    crear_lista(*hijosRaiz);                         //creo la lista de hijos
+    crear_lista(&hijosRaiz);                         //creo la lista de hijos
     a->raiz->hijos=hijosRaiz;
     a->raiz->padre=NULL;                             //elimino al padre
 }
 
 tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e)
 {
-    tNodo ret=(nodo*) malloc(sizeof(nodo));
+    tNodo ret=(tNodo) malloc(sizeof(struct nodo));
     tLista hijosI;
-    crear_lista(*hijosI);
+    crear_lista(&hijosI);
     ret->hijos=hijosI;
     ret->padre=np;
     ret->elemento=e;
@@ -38,7 +38,7 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e)
     }
     else{
         if(nh->padre!=np)
-            exit(ARB_POSICION_INVALIDA)
+            exit(ARB_POSICION_INVALIDA);
         else{
             tNodo hijoAux=l_primera(hijosPadre);
             while(hijoAux!=l_fin(hijosPadre)){
@@ -46,7 +46,7 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e)
                     l_insertar(hijosPadre,nh,ret);
                     hijoAux=l_ultima(hijosPadre);
                 }
-                hijoAux=l_siguiente(hijoAux);
+                hijoAux=l_siguiente(hijosPadre,hijoAux);
             }
         }
     }
@@ -75,8 +75,8 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
         tPosicion final=l_fin(hijosNuevos);
         while(pHijoActual!=final){
             tNodo hijoActual;
-            l_insertar(hermanos,posInicial,l_recuperar(pHijoActual))
-            hijoActual=(tNodo)l_recuperar(pHijoActual);
+            l_insertar(hermanos,posInicial,l_recuperar(hijosNuevos,pHijoActual));
+            hijoActual=(tNodo)l_recuperar(hijosNuevos,pHijoActual);
             hijoActual->padre=padreNuevo;
             pHijoActual=l_siguiente(hijosNuevos,pHijoActual);
         }
@@ -90,7 +90,8 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
 
 void a_destruir(tArbol* a, void(* fEliminar)(tElemento))
 {
-    ElimPreOrden(*a,*a->raiz,fEliminar());
+    tElemento p;
+    ElimPreOrden(*a,(*a)->raiz,fEliminar(p));
     *a=NULL;
     free(a);
 }
