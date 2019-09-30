@@ -5,8 +5,10 @@
 
 void crear_arbol(tArbol* a)
 {
-    a=(arbol *) malloc(sizeof(arbol));
-    a->raiz=NULL;
+    *a=(tArbol) malloc(sizeof(tArbol));
+    if(*a==NULL)
+        exit(ARB_ERROR_MEMORIA);
+    (*a)->raiz=NULL;
 }
 
 void crear_raiz(tArbol a, tElemento e)
@@ -14,7 +16,7 @@ void crear_raiz(tArbol a, tElemento e)
 
     if((a->raiz)!=NULL)
         exit(ARB_OPERACION_INVALIDA);
-    a->raiz=(nodo *) malloc(sizeof(nodo));           //reservo espacio raiz
+    a->raiz=(tNodo *) malloc(sizeof(tNodo));           //reservo espacio raiz
     tLista hijosRaiz;                                //reservo lista hijos
     a->raiz->elemento=e;                             //asigno el elemento de la raiz
     crear_lista(*hijosRaiz);                         //creo la lista de hijos
