@@ -25,6 +25,7 @@ void preOrden(tArbol arbol,tNodo cursor){
     tNodo finListaHijo = l_fin(cursor->hijos);
     while(cursor != finListaHijo){
         preOrden(arbol,nodoEnListaHijo);
+        nodoEnListaHijo=l_siguiente(arbol,nodoEnListaHijo);
     }
 
 
