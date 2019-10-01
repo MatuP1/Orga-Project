@@ -14,7 +14,7 @@
 
 1568224754 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\lista.h
 
-1568910236 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testlista.c
+1569938567 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testlista.c
 	<stdlib.h>
 	<stdio.h>
 	"LISTA.h"
@@ -84,4 +84,24 @@
 1569604313 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\partida.h
 
 1568224754 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\include\lista.h
+
+1569936861 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\arbol.c
+	"lista.h"
+	"arbol.h"
+	<stdio.h>
+	<stdlib.h>
+
+1569941541 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.c
+	<stdlib.h>
+	<stdio.h>
+	"arbol.h"
+	"lista.h"
+
+1569937394 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testgeneral.c
+
+1569937252 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.c
+	<stdlib.h>
+	<stdio.h>
+	"arbol.h"
+	"lista.h"
 

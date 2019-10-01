@@ -11,7 +11,7 @@ void fEliminar(tElemento p);
 
 void mostrarLista(tLista lista);
 
-int main ()
+int l_main ()
 {
     int *a,*b,*c,*d,*e;
 
@@ -140,7 +140,7 @@ int main ()
 
 
 
-void fEliminar(tElemento p){
+void fEliminarl(tElemento p){
     free(p);
     printf("elimino bien\n");
 };
