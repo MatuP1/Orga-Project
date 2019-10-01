@@ -85,13 +85,13 @@
 
 1568224754 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\include\lista.h
 
-1569936861 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\arbol.c
+1569948702 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\arbol.c
 	"lista.h"
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
 
-1569941541 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.c
+1569947311 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.c
 	<stdlib.h>
 	<stdio.h>
 	"arbol.h"

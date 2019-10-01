@@ -55,12 +55,12 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e)
 
 void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
 {
-    if(n==a->raiz){
+    if(n==(a->raiz)){
         if(l_longitud(n->hijos)>1)
             exit(ARB_OPERACION_INVALIDA);
 
         if(l_longitud(n->hijos)==1){
-            a->raiz=l_primera(n->hijos);
+            (a->raiz)=l_primera(n->hijos);
         }
     }
     else{
@@ -72,8 +72,8 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
             posInicial=l_siguiente(hermanos,posInicial);
         }
         tPosicion pHijoActual=l_primera(hijosNuevos);
-        tPosicion final=l_fin(hijosNuevos);
-        while(pHijoActual!=final){
+        tPosicion pfinal=l_fin(hijosNuevos);
+        while(pHijoActual!=pfinal){
             tNodo hijoActual;
             l_insertar(hermanos,posInicial,l_recuperar(hijosNuevos,pHijoActual));
             hijoActual=(tNodo)l_recuperar(hijosNuevos,pHijoActual);
@@ -101,12 +101,13 @@ void a_destruir(tArbol* a, void(* fEliminar)(tElemento))
 void ElimPreOrden(tArbol arbol,tNodo cursor,void(* fEliminar)(tElemento)){
     tNodo nodoEnListaHijo = l_primera((cursor->hijos));
     tNodo finListaHijo = l_fin(cursor->hijos);
-    while(cursor != finListaHijo){
-        preOrden(arbol,nodoEnListaHijo);
-        nodoEnListaHijo=l_siguiente(arbol,nodoEnListaHijo);
+    if(l_longitud(cursor->hijos)>0){
+        while(nodoEnListaHijo != finListaHijo){
+            ElimPreOrden(arbol,nodoEnListaHijo,fEliminar);
+            nodoEnListaHijo=l_siguiente(arbol,nodoEnListaHijo);
+        }
     }
-   a_eliminar(arbol,cursor,fEliminar);
-
+    a_eliminar(arbol,cursor,fEliminar);
 }
 
 tNodo BuscarPreOrden(tArbol arbol,tNodo cursor, tNodo buscado, tNodo encontrado){
@@ -141,11 +142,29 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol* sa)
 {
     crear_arbol(sa);
     crear_raiz(*sa,n->elemento);
-    n->elemento=NULL;
+    tPosicion hijo=l_primera(n->hijos);
+    tPosicion ultimoHijo=l_ultima(n->hijos);//Eficiencia(?
+    if(ultimoHijo!=l_fin(n->hijos)){
+        while(hijo!=ultimoHijo){
+            subArbolEnPreOrden(*sa,a,n,hijo->elemento);
+            hijo=l_siguiente(n->hijos,hijo);
+        }
+    }
     n->padre=NULL;
-    subArbolEnPreOrden(a,(*sa)->raiz,*sa,NULL);
-
+    free(n->hijos); //PREGUNTARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+    free(n);
 }
 void preOrden (){}
-void subArbolEnPreOrden(tArbol arbol,tNodo cursor,tArbol sa, tNodo papa){}
+void subArbolEnPreOrden(tArbol nuevoA,tArbol viejoA,tNodo padre,tNodo hijoActual){
+    tNodo nodoInsertado= a_insertar(nuevoA,padre,NULL,hijoActual->elemento);
+
+    tPosicion hijo=l_primera(hijoActual->hijos);
+    tPosicion ultimoHijo=l_ultima(hijoActual->hijos);//Eficiencia(?
+    while(hijo!=l_siguiente(hijoActual->hijos,ultimoHijo)){
+        subArbolEnPreOrden(nuevoA,viejoA,nodoInsertado,hijo->elemento);
+        hijo=l_siguiente(hijoActual->hijos,hijo);
+    }
+    hijoActual->padre=NULL;
+    free(hijoActual->hijos); //PREGUNTARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+    free(hijoActual);}
 

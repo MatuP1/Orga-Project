@@ -52,9 +52,9 @@ void mostrarArbol(tArbol arbol){
 
     tNodo cursor = a_raiz(arbol);
 
-    preOrdenMostrar(arbol);
+   // preOrdenMostrar(arbol);
 
-    printf("\n");
+    printf("entro \n");
 
 }
 int a_main(){
@@ -132,10 +132,10 @@ int a_main(){
     //test subArbol que usa insertar y eliminar.
     tArbol sar;
     crear_arbol(&sar);
-    printf("Se creo un nuevo *arbol");
+    printf("Se creo un nuevo *arbol\n");
     printf("Primer arbol antes de utilizar la funcion subArbol\n");
     mostrarArbol(*ar);
-    //a_sub_arbol(*ar,b,sa);
+    a_sub_arbol(*ar,ins,sar);
     printf("Primer arbol despues de utilizar la funcion subArbol\n");
     mostrarArbol(*ar);
     printf("Segundo arbol despues de utilizar la funcion subArbol\n");
