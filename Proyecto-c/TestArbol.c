@@ -61,6 +61,8 @@ int a_main(){
 
     int *a,*b,*c,*d,*e,*f,*g,*h,*i,*j;
 
+    tNodo insA,insB,insC;
+
     a=(int*)malloc(sizeof(int));
     b=(int*)malloc(sizeof(int));
     c=(int*)malloc(sizeof(int));
