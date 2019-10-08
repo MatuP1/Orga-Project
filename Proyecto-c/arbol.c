@@ -2,7 +2,7 @@
 #include "arbol.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+void fnoElminar(void * nada){}
 void crear_arbol(tArbol* a)
 {
     *a=(tArbol) malloc(sizeof(struct arbol));
@@ -58,9 +58,17 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
     if(n==(a->raiz)){
         if(l_longitud(n->hijos)>1)
             exit(ARB_OPERACION_INVALIDA);
-
+        if(l_longitud(n->hijos)==0){
+            fEliminar(n->elemento);
+            free(n->hijos);
+            free(n);
+        }
         if(l_longitud(n->hijos)==1){
             (a->raiz)=(tNodo)l_primera(n->hijos)->elemento;
+            (a->raiz->padre)=NULL;
+             fEliminar(n->elemento);
+             l_destruir(&(n->hijos),fnoElminar);
+             free(n);
         }
     }
     else{
@@ -75,16 +83,17 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
         tPosicion pfinal=l_fin(hijosNuevos);
         while(pHijoActual!=pfinal){
             tNodo hijoActual;
-            l_insertar(hermanos,posInicial,l_recuperar(hijosNuevos,pHijoActual));
             hijoActual=(tNodo)l_recuperar(hijosNuevos,pHijoActual);
+            l_insertar(hermanos,posInicial,hijoActual);
             hijoActual->padre=padreNuevo;
             pHijoActual=l_siguiente(hijosNuevos,pHijoActual);
         }
+        (pHijoActual->siguiente)=(posInicial->siguiente);
+        fEliminar(n->elemento);
+        n->padre=NULL;
+        l_destruir(&(n->hijos),fnoElminar); //PREGUNTARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+        free(n);
     }
-    fEliminar(n->elemento);
-    n->padre=NULL;
-    free(n->hijos); //PREGUNTARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-    free(n);
 
 }
 
