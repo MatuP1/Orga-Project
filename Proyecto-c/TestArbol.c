@@ -4,6 +4,9 @@
 #include "lista.h"
 
 
+///#define noHijoDePadre
+#define elimRaizConMasHijos
+
 /**Muestra el arbol en preorden.
 
 */
@@ -128,6 +131,16 @@ int a_main(){
     insK=a_insertar(*ar,insA,insB,k);
     noson30mil=(int*)insK->elemento;
     printf("Se inserto el '%i' = '10'.\n",*noson30mil);
+
+    #ifdef noHijoDePadre
+    a_insertar(*ar,insK,insA,k);///Inserto el elemento k=10 como hijo de insK y hermando de insA, pero como insA es la raiz devuelve error.
+
+    #endif // noHijoDePadre
+
+    #ifdef elimRaizConMasHijos
+    a_eliminar(*ar,a_raiz(*ar),fEliminar);
+    #endif // elimRaizConMasHijos
+
 
     //test subArbol que usa insertar y eliminar.
     tArbol sar;
