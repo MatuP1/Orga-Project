@@ -3,7 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 void fnoElminar(void * nada){}
+void (*fEliminarUsuario)(tElemento);
+void auxDestruir(tElemento elemento);
+
 void crear_arbol(tArbol* a)
+
 {
     *a=(tArbol) malloc(sizeof(struct arbol));
     if((*a)==NULL)
@@ -103,26 +107,31 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
 }
 
 
-/**
-    Recorrido en preOrden que elimina.
-*/
-void ElimPreOrden(tArbol arbol,tNodo cursor,void(* fEliminar)(tElemento)){
-    tPosicion nodoEnListaHijo = l_primera((cursor->hijos));
-    tPosicion finListaHijo = l_fin(cursor->hijos);
-    if(l_longitud(cursor->hijos)>0){
-        while(nodoEnListaHijo != finListaHijo){
-            ElimPreOrden(arbol,(tNodo)nodoEnListaHijo->elemento,fEliminar);
-            nodoEnListaHijo=l_siguiente(cursor->hijos,nodoEnListaHijo);
-        }
-    }
-    a_eliminar(arbol,cursor,fEliminar);
-}
+///Destruir que funciona.
+void a_destruir(tArbol * a, void (*fEliminar)(tElemento)) {
 
-void a_destruir(tArbol* a, void(* fEliminar)(tElemento))
-{
-    ElimPreOrden(*a,(*a)->raiz,fEliminar);
-    *a=NULL;
-    free(a);
+    fEliminarUsuario = fEliminar;
+    tLista hijos = (*a)->raiz->hijos;
+    l_destruir(&hijos, &auxDestruir);
+
+    fEliminar((*a)->raiz->elemento);
+    (*a)->raiz->elemento = NULL;
+
+    free((*a)->raiz);
+    (*a)->raiz = NULL;
+    free((*a));
+    a = NULL;
+    fEliminarUsuario = NULL;
+
+}
+void auxDestruir(tElemento elemento){
+
+    tNodo nodo_borrar = (tNodo) elemento;
+    l_destruir(&nodo_borrar->hijos, &auxDestruir);
+    fEliminarUsuario(nodo_borrar->elemento);
+    nodo_borrar->elemento = NULL;
+    nodo_borrar->padre = NULL;
+    free(nodo_borrar);
 }
 
 tElemento a_recuperar(tArbol a, tNodo n)
@@ -140,7 +149,7 @@ tLista a_hijos(tArbol a, tNodo n)
     return n->hijos;
 }
 
-void a_sub_arbol(tArbol a, tNodo n, tArbol* sa)
+/**void a_sub_arbol(tArbol a, tNodo n, tArbol* sa)
 {
     crear_arbol(sa);
     crear_raiz(*sa,n->elemento);
@@ -161,7 +170,8 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol* sa)
     l_eliminar(hermanosDeN,posDeN,fnoElminar);
     free(n->elemento);
     free(n);
-    /**tPosicion hijo=l_primera(n->hijos);
+
+    //tPosicion hijo=l_primera(n->hijos);
     tPosicion ultimoHijo=l_ultima(n->hijos);//Eficiencia(?
     if(ultimoHijo!=l_fin(n->hijos)){
         while(hijo!=ultimoHijo){
@@ -171,6 +181,34 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol* sa)
     }
     n->padre=NULL;
     free(n->hijos);
-    free(n);*/
+    free(n);
 
+}
+*/
+
+tPosicion buscarPosicion(tNodo n) {
+    tLista hijosPadre = n->padre->hijos;
+    tPosicion cursor = l_primera(hijosPadre);
+    tPosicion fin = l_fin(hijosPadre);
+    while (cursor != fin) {
+        tNodo hijo = (tNodo) l_recuperar(hijosPadre, cursor);
+        if (hijo == n) {
+            return cursor;
+        }
+        cursor = l_siguiente(hijosPadre, cursor);
+    }
+    return NULL;
+}
+void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
+    crear_arbol(sa);
+    (*sa)->raiz = n;
+    if(n->padre != NULL){
+        tLista hermanos = n->padre->hijos;
+        tPosicion nPos = buscarPosicion(n);
+        l_eliminar(hermanos, nPos, &fnoElminar);
+        n->padre = NULL;
+    }
+    else{
+        a->raiz = NULL;
+    }
 }

@@ -24,14 +24,14 @@
 	<stdio.h>
 	<stdlib.h>
 
-1568931168 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\lista.c
+1570638955 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 
 1568152054 d:\universidad\orga\proyecto\orga-project\proyecto-c\lista.h
 
-1568931168 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testlista.c
+1570576228 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testlista.c
 	<stdlib.h>
 	<stdio.h>
 	"LISTA.h"
@@ -100,6 +100,14 @@
 1569937394 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testgeneral.c
 
 1569937252 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.c
+	<stdlib.h>
+	<stdio.h>
+	"arbol.h"
+	"lista.h"
+
+1570576228 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testgeneral.c
+
+1570638705 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testarbol.c
 	<stdlib.h>
 	<stdio.h>
 	"arbol.h"
