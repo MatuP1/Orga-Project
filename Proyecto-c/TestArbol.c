@@ -8,8 +8,9 @@
 
 */
 void fEliminar(tElemento p){
+    int* valor=(int *)p;
+    printf("se elimino el elemento[%i]\n",*valor);
     free(p);
-    printf("elimino bien\n");
 };
 /**Recorrido en preOrden.
 */
@@ -27,10 +28,13 @@ void preOrdenMostrar(tArbol arbol,tNodo cursor,tLista hijos){
 }
 
 void mostrarArbol(tArbol arbol){
-
-    preOrdenMostrar(arbol,a_raiz(arbol),a_hijos(arbol,a_raiz(arbol)));
-
-    printf("entro \n");
+    if(a_raiz(arbol)!=NULL){
+        preOrdenMostrar(arbol,a_raiz(arbol),a_hijos(arbol,a_raiz(arbol)));
+    }
+    else{
+        printf("El arbol esta vacio\n");
+    }
+    printf("\n");
 
 }
 int a_main(){
