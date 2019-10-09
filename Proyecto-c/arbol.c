@@ -171,7 +171,7 @@ tLista a_hijos(tArbol a, tNodo n)
     free(n->elemento);
     free(n);
 
-    //tPosicion hijo=l_primera(n->hijos);
+    tPosicion hijo=l_primera(n->hijos);
     tPosicion ultimoHijo=l_ultima(n->hijos);//Eficiencia(?
     if(ultimoHijo!=l_fin(n->hijos)){
         while(hijo!=ultimoHijo){
@@ -183,8 +183,8 @@ tLista a_hijos(tArbol a, tNodo n)
     free(n->hijos);
     free(n);
 
-}
-*/
+}*/
+
 
 tPosicion buscarPosicion(tNodo n) {
     tLista hijosPadre = n->padre->hijos;

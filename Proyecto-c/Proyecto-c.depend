@@ -24,7 +24,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1570638955 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\lista.c
+1570639027 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
@@ -107,9 +107,15 @@
 
 1570576228 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testgeneral.c
 
-1570638705 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testarbol.c
+1570642309 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testarbol.c
 	<stdlib.h>
 	<stdio.h>
 	"arbol.h"
 	"lista.h"
+
+1570641365 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\arbol.c
+	"lista.h"
+	"arbol.h"
+	<stdio.h>
+	<stdlib.h>
 

@@ -13,28 +13,24 @@ void fEliminar(tElemento p){
 };
 /**Recorrido en preOrden.
 */
-void preOrdenMostrar(tArbol arbol){
-    int* valor=(int *)a_raiz(arbol)->elemento;
-    int cantHijos=l_longitud(a_raiz(arbol)->hijos);
+void preOrdenMostrar(tArbol arbol,tNodo cursor,tLista hijos){
+    int* valor=(int *)cursor->elemento;
     printf("[%i] ",*valor);
-    tPosicion hijoActual=NULL;
-    if(cantHijos>0){
-        hijoActual=l_primera(a_raiz(arbol)->hijos);
-        }
-    int i = 0;
-    tArbol arbolRestante;
-    while(i<cantHijos){
-
-            a_sub_arbol(arbol, hijoActual->elemento,&arbolRestante);
-            preOrdenMostrar(arbolRestante);
-            cantHijos--;
-            hijoActual=l_siguiente(a_raiz(arbol)->hijos,hijoActual);
+    tPosicion posActual=l_primera(hijos);
+    tPosicion posFinal=l_fin(hijos);
+    while(posActual!=posFinal){
+        tNodo elemPosActual=l_recuperar(hijos,posActual);
+        tLista hijosPosActual=a_hijos(arbol,l_recuperar(hijos,posActual));
+        preOrdenMostrar(arbol,elemPosActual,hijosPosActual);
+        posActual=l_siguiente(hijos,posActual);
     }
+
+
 }
 
 void mostrarArbol(tArbol arbol){
 
-    preOrdenMostrar(arbol);
+    preOrdenMostrar(arbol,a_raiz(arbol),a_hijos(arbol,a_raiz(arbol)));
 
     printf("entro \n");
 
@@ -154,3 +150,5 @@ int a_main(){
 
     return 0;
 }
+
+
