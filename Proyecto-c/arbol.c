@@ -28,25 +28,30 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e)
 {
     tNodo ret=(tNodo) malloc(sizeof(struct nodo));
     tLista hijosI;
-    crear_lista(&hijosI);
+    crear_lista(&hijosI); // creo la lista de hijos que va a tener el nodo insertado
     ret->hijos=hijosI;
-    ret->padre=np;
-    ret->elemento=e;
-    tLista hijosPadre=np->hijos;
-    if(nh==NULL){
-        l_insertar(np->hijos,l_fin(np->hijos),ret);
+    ret->padre=np;        //le asigno su nuevo padre
+    ret->elemento=e;      //le asigno su nuevo elemento
+    tLista hijosPadre=np->hijos;   //guardo la lista de hijos del padre
+    tPosicion hermanoFin = l_fin(hijosPadre); // guardo el ultimo hijo del padre
+    if(nh==NULL){  //si el nodo hermano es nulo inserto al final
+        l_insertar(hijosPadre,hermanoFin,ret);
+        printf("inserte con NULL\n");
     }
     else{
-        if(nh->padre!=np)
+        if((nh->padre)!=np)           //si nh no es un hijo del padre error
             exit(ARB_POSICION_INVALIDA);
         else{
-            tPosicion hijoAux=l_primera(hijosPadre);
-            while(hijoAux!=l_fin(hijosPadre)){
-                if((tNodo)hijoAux->elemento==nh){
+            tPosicion hijoAux=l_primera(hijosPadre); //tomo al primer hijo del padre
+            int i=0;
+            int parar=l_longitud(hijosPadre);
+            while(i<=parar){
+                if(((tNodo)hijoAux->elemento)==nh){
                     l_insertar(hijosPadre,hijoAux,ret);
-                    hijoAux=l_ultima(hijosPadre);
+                    printf("inserte\n");
                 }
                 hijoAux=l_siguiente(hijosPadre,hijoAux);
+                i++;
             }
         }
     }

@@ -59,9 +59,9 @@ void mostrarArbol(tArbol arbol){
 }
 int a_main(){
 
-    int *a,*b,*c,*d,*e,*f,*g,*h,*i,*j;
+    int *a,*b,*c,*d,*e,*f,*g,*h,*i,*j,*k;
 
-    tNodo insA,insB,insC,insD,insE,insF,insG,insH,insI,insJ;
+    tNodo insA,insB,insC,insD,insE,insF,insG,insH,insI,insJ,insK;
 
     a=(int*)malloc(sizeof(int));
     b=(int*)malloc(sizeof(int));
@@ -73,6 +73,7 @@ int a_main(){
     h=(int*)malloc(sizeof(int));
     i=(int*)malloc(sizeof(int));
     j=(int*)malloc(sizeof(int));
+    k=(int*)malloc(sizeof(int));
 
     *a=0;
     *b=1;
@@ -84,6 +85,7 @@ int a_main(){
     *h=7;
     *i=8;
     *j=9;
+    *k=10;
 
     //Inicializo el arbol.
     tArbol* ar=(tArbol*) malloc(sizeof(tArbol));
@@ -118,12 +120,12 @@ int a_main(){
     printf("Se inserto el '%i' = '4'.\n",*noson30mil);
     mostrarArbol(*ar);
 
-    insF=a_insertar(*ar,insC,NULL,f);
+    insF=a_insertar(*ar,insC,insD,f);
    noson30mil=(int*)insF->elemento;
     printf("Se inserto el '%i' = '5'.\n",*noson30mil);
     mostrarArbol(*ar);
 
-    insG=a_insertar(*ar,insB,NULL,g);
+    insG=a_insertar(*ar,insB,insC,g);
     noson30mil=(int*)insG->elemento;
     printf("Se inserto el '%i' = '6'.\n",*noson30mil);
     mostrarArbol(*ar);
@@ -138,10 +140,14 @@ int a_main(){
     printf("Se inserto el '%i' = '8'.\n",*noson30mil);
     mostrarArbol(*ar);
 
-    insJ=a_insertar(*ar,insH,NULL,j);
+    insJ=a_insertar(*ar,insH,insI,j);
    noson30mil=(int*)insJ->elemento;
     printf("Se inserto el '%i' = '9'.\n",*noson30mil);
     mostrarArbol(*ar);
+
+    insK=a_insertar(*ar,insA,insB,k);
+    noson30mil=(int*)insK->elemento;
+    printf("Se inserto el '%i' = '10'.\n",*noson30mil);
 
     //test subArbol que usa insertar y eliminar.
     tArbol sar;
