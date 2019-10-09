@@ -5,7 +5,8 @@
 
 
 ///#define noHijoDePadre
-#define elimRaizConMasHijos
+///#define elimRaizConMasHijos
+///#define raizNula
 
 /**Muestra el arbol en preorden.
 
@@ -76,6 +77,10 @@ int a_main(){
     printf("Se creo un nuevo arbol\n");
 
     //Insertar.
+    #ifdef raizNula
+
+    crear_raiz(*ar,NULL);
+    #endif // raizNula
     crear_raiz(*ar,a);
     tArbol este=*ar; //para simplificar(?
     int* noson30mil=(int*)(a_recuperar(este,a_raiz(este)));
