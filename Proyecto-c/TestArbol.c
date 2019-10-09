@@ -4,12 +4,17 @@
 #include "lista.h"
 
 
+///#define noHijoDePadre
+///#define elimRaizConMasHijos
+///#define raizNula
+
 /**Muestra el arbol en preorden.
 
 */
 void fEliminar(tElemento p){
+    int* valor=(int *)p;
+    printf("se elimino el elemento[%i]\n",*valor);
     free(p);
-    printf("elimino bien\n");
 };
 /**Recorrido en preOrden.
 */
@@ -27,10 +32,13 @@ void preOrdenMostrar(tArbol arbol,tNodo cursor,tLista hijos){
 }
 
 void mostrarArbol(tArbol arbol){
-
-    preOrdenMostrar(arbol,a_raiz(arbol),a_hijos(arbol,a_raiz(arbol)));
-
-    printf("entro \n");
+    if(a_raiz(arbol)!=NULL){
+        preOrdenMostrar(arbol,a_raiz(arbol),a_hijos(arbol,a_raiz(arbol)));
+    }
+    else{
+        printf("El arbol esta vacio\n");
+    }
+    printf("\n");
 
 }
 int a_main(){
@@ -69,6 +77,10 @@ int a_main(){
     printf("Se creo un nuevo arbol\n");
 
     //Insertar.
+    #ifdef raizNula
+
+    crear_raiz(*ar,NULL);
+    #endif // raizNula
     crear_raiz(*ar,a);
     tArbol este=*ar; //para simplificar(?
     int* noson30mil=(int*)(a_recuperar(este,a_raiz(este)));
@@ -124,6 +136,16 @@ int a_main(){
     insK=a_insertar(*ar,insA,insB,k);
     noson30mil=(int*)insK->elemento;
     printf("Se inserto el '%i' = '10'.\n",*noson30mil);
+
+    #ifdef noHijoDePadre
+    a_insertar(*ar,insK,insA,k);///Inserto el elemento k=10 como hijo de insK y hermando de insA, pero como insA es la raiz devuelve error.
+
+    #endif // noHijoDePadre
+
+    #ifdef elimRaizConMasHijos
+    a_eliminar(*ar,a_raiz(*ar),fEliminar);
+    #endif // elimRaizConMasHijos
+
 
     //test subArbol que usa insertar y eliminar.
     tArbol sar;
