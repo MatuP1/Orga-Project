@@ -166,16 +166,12 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol* sa)
 {
     crear_arbol(sa);
     (*sa)->raiz=n;
-
     if(n->padre!=NULL){
         tLista hermanosDeN=n->padre->hijos;
         tPosicion posDeN=buscarPosicion(n);
         l_eliminar(hermanosDeN,posDeN,fnoElminar);
         n->padre=NULL;
-        free(n->elemento);
-        free(n);
     }
     else
         a->raiz=NULL;
-
 }

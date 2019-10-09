@@ -132,8 +132,7 @@ int a_main(){
     printf("Primer arbol antes de utilizar la funcion subArbol\n");
     mostrarArbol(*ar);
     if(insB!=((*ar)->raiz)){
-        a_sub_arbol(*ar,insB,&sar);
-        printf("la concha de tu madre all boys");
+        a_sub_arbol(*ar,insD,&sar);
     }
     printf("Primer arbol despues de utilizar la funcion subArbol\n");
     mostrarArbol(*ar);
