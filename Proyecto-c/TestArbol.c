@@ -24,8 +24,6 @@ void preOrdenMostrar(tArbol arbol,tNodo cursor,tLista hijos){
         preOrdenMostrar(arbol,elemPosActual,hijosPosActual);
         posActual=l_siguiente(hijos,posActual);
     }
-
-
 }
 
 void mostrarArbol(tArbol arbol){
