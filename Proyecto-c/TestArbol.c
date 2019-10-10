@@ -20,7 +20,14 @@ void fEliminar(tElemento p){
 */
 void preOrdenMostrar(tArbol arbol,tNodo cursor,tLista hijos){
     int* valor=(int *)cursor->elemento;
-    printf("[%i] ",*valor);
+    int* vPadre;
+    if(cursor==a_raiz(arbol)){
+        printf("[%i] es raiz; ",*valor);
+    }
+    else{
+        vPadre=(int*)cursor->padre->elemento;
+        printf("[%i] es hijo de [%i]; ",*valor,*vPadre);
+    }
     tPosicion posActual=l_primera(hijos);
     tPosicion posFinal=l_fin(hijos);
     while(posActual!=posFinal){

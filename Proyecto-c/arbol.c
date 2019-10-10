@@ -20,7 +20,11 @@ void crear_raiz(tArbol a, tElemento e)
 
     if((a->raiz)!=NULL)
         exit(ARB_OPERACION_INVALIDA);
-    a->raiz=(tNodo) malloc(sizeof(struct nodo));           //reservo espacio raiz
+    a->raiz=(tNodo) malloc(sizeof(struct nodo));//reservo espacio raiz
+
+    if(a->raiz==NULL)
+        exit(ARB_ERROR_MEMORIA);
+
     tLista hijosRaiz;                                //reservo lista hijos
     a->raiz->elemento=e;                             //asigno el elemento de la raiz
     crear_lista(&hijosRaiz);                         //creo la lista de hijos
@@ -31,27 +35,36 @@ void crear_raiz(tArbol a, tElemento e)
 tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e)
 {
     tNodo ret=(tNodo) malloc(sizeof(struct nodo));
+
+    if(ret==NULL)
+        exit(ARB_ERROR_MEMORIA);
+
     tLista hijosI;
     crear_lista(&hijosI); // creo la lista de hijos que va a tener el nodo insertado
     ret->hijos=hijosI;
     ret->padre=np;        //le asigno su nuevo padre
     ret->elemento=e;      //le asigno su nuevo elemento
+
     tLista hijosPadre=np->hijos;   //guardo la lista de hijos del padre
     tPosicion hermanoFin = l_fin(hijosPadre); // guardo el ultimo hijo del padre
+
     if(nh==NULL){  //si el nodo hermano es nulo inserto al final
         l_insertar(hijosPadre,hermanoFin,ret);
         printf("inserte con NULL\n");
     }
+
     else{
         if((nh->padre)!=np)           //si nh no es un hijo del padre error
             exit(ARB_POSICION_INVALIDA);
+
         else{
             tPosicion hijoAux=l_primera(hijosPadre); //tomo al primer hijo del padre
             int i=0;
             int parar=l_longitud(hijosPadre);
             while(i<=parar){
-                if(((tNodo)hijoAux->elemento)==nh){
+                if(((tNodo)l_recuperar(hijosPadre,hijoAux)==nh)){
                     l_insertar(hijosPadre,hijoAux,ret);
+                    i=parar;
                     printf("inserte\n");
                 }
                 hijoAux=l_siguiente(hijosPadre,hijoAux);
@@ -67,15 +80,19 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
     if(n==(a->raiz)){
         if(l_longitud(n->hijos)>1)
             exit(ARB_OPERACION_INVALIDA);
+
         if(l_longitud(n->hijos)==0){
             fEliminar(n->elemento);
-            free(n->hijos);
+            l_destruir(&n->hijos,fnoElminar);
             free(n);
+            a->raiz=NULL;
         }
+
         if(l_longitud(n->hijos)==1){
-            (a->raiz)=(tNodo)l_primera(n->hijos)->elemento;
+            (a->raiz)=(tNodo)l_recuperar(n->hijos,l_primera(n->hijos));
             (a->raiz->padre)=NULL;
              fEliminar(n->elemento);
+             l_eliminar(n->hijos,l_primera(n->hijos),fnoElminar);
              l_destruir(&(n->hijos),fnoElminar);
              free(n);
         }
@@ -85,7 +102,7 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
         tLista hermanos=padreNuevo->hijos;
         tLista hijosNuevos=n->hijos;
         tPosicion posInicial=l_primera(hermanos);
-        while(posInicial->elemento!=n){
+        while((tNodo)l_recuperar(hermanos,posInicial)!=n){
             posInicial=l_siguiente(hermanos,posInicial);
         }
         tPosicion pHijoActual=l_primera(hijosNuevos);
@@ -94,20 +111,21 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
             tNodo hijoActual;
             hijoActual=(tNodo)l_recuperar(hijosNuevos,pHijoActual);
             l_insertar(hermanos,posInicial,hijoActual);
+            l_eliminar(hijosNuevos,pHijoActual,fnoElminar);
             hijoActual->padre=padreNuevo;
             pHijoActual=l_siguiente(hijosNuevos,pHijoActual);
         }
-        (pHijoActual->siguiente)=(posInicial->siguiente);
+        l_eliminar(hermanos,posInicial,fnoElminar);
         fEliminar(n->elemento);
         n->padre=NULL;
-        l_destruir(&(n->hijos),fnoElminar); //PREGUNTARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+        l_destruir(&(n->hijos),fnoElminar);
+        n->elemento=NULL;
         free(n);
     }
 
 }
 
 
-///Destruir que funciona.
 void a_destruir(tArbol * a, void (*fEliminar)(tElemento)) {
 
     fEliminarUsuario = fEliminar;
