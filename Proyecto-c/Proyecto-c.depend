@@ -91,7 +91,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1570718884 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.c
+1570718916 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.c
 	<stdlib.h>
 	<stdio.h>
 	"arbol.h"
@@ -121,4 +121,9 @@
 	<stdlib.h>
 
 1570655160 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.h
+
+1570890933 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\partida.c
+	"partida.h"
+	"stdlib.h"
+	"stdio.h"
 

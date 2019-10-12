@@ -55,6 +55,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="lista.h" />
+		<Unit filename="partida.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="partida.h" />
 		<Extensions>
 			<code_completion />
