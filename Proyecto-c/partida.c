@@ -41,14 +41,107 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
     }
 }
 
+int gano(tPartida p, int ficha){
+    tTablero t=p->tablero;
+    int gano=0;
+    int i=0;
+    while(gano!=3 || i<3){
+        for(int j=0; j<3; j++){
+            if(t->grilla[i][j]==ficha)
+                gano++;
+            }
+        if(gano<3)
+            gano=0;
+        i++;
+    }
+    if(gano>=3)
+        return 1; //gano
+    else
+        gano=0;
+
+    int j=0;
+    while(gano!=3 || j<3){
+        for(int i=0; i<3; i++){
+            if(t->grilla[i][j]==ficha)
+                gano++;
+            }
+        if(gano<3)
+            gano=0;
+        j++;
+    }
+    if(gano>=3)
+        return 1; //gano
+    else
+        gano=0;
+
+    //diagonal hardcodeada x2
+    i=0; j=0;
+    while(j<3 && i<3){
+        if(t->grilla[i][j]==ficha)
+            gano++;
+        else{
+            j=2;
+            i=2;
+        }
+    i++;
+    j++;
+    }
+    if(gano>=3)
+        return 1; //gano
+    else
+        gano=0;
+    while(j>0 && i<3){
+        j--;
+        i--;
+        if(t->grilla[i][j]==ficha)
+            gano++;
+        else{
+            j=0;
+            i=0;
+        }
+    }
+    if(gano>=3)
+        return 1; //gano
+    else
+        return gano=0;
+
+}
+
 int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
     tTablero t=p->tablero;
-    if(t->grilla[mov_x][mov_y]==1)
+
+    int lleno=0;
+
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            if(t->grilla[i][j]!=0)
+                lleno++;
+        }
+    }
+
+    if(mov_x > 2 || mov_y > 2 || mov_x < 0 || mov_y < 0)
+        exit(PART_MOVIMIENTO_ERROR);
+
+    if(lleno>=9){
+        p->estado=PART_SIN_MOVIMIENTO;
+        return PART_MOVIMIENTO_ERROR;
+    }
+
+    if(t->grilla[mov_x][mov_y]!=0)
         return (PART_MOVIMIENTO_ERROR);
-    else
-        t->grilla[mov_x][mov_y]=1;
-    return PART_MOVIMIENTO_OK;      //necesita mas comtroles? cuando es necesario cambiar el estado de la partida?
-                                    //debo recorrer todoel tablero cada vez?
+    else{
+        if(p->turno_de==PART_JUGADOR_1){
+            t->grilla[mov_x][mov_y]=1;
+            if(gano(p,1))
+                return PART_GANA_JUGADOR_1;
+        }
+        else{
+            t->grilla[mov_x][mov_y]=2;
+            if(gano(p,2))
+                return PART_GANA_JUGADOR_2;
+        }
+    }
+    return PART_MOVIMIENTO_OK;
 }
 
 void finalizar_partida(tPartida * p){
@@ -59,3 +152,4 @@ void finalizar_partida(tPartida * p){
     free(p);
     p=NULL;
 }
+
