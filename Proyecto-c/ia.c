@@ -28,7 +28,7 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
             estado->grilla[i][j] = p->tablero->grilla[i][j];
         }
     }
-	
+
 	// Se asume que el estado de la partida es PART_EN_JUEGO por lo que, la utilidad del estado
 	// inicialmente es IA_NO_TERMINO
     estado->utilidad = IA_NO_TERMINO;
@@ -47,7 +47,7 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     ejecutar_min_max((*b));
 }
 
-/** 
+/**
 >>>>>  A IMPLEMENTAR   <<<<<
 */
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){}
@@ -83,7 +83,13 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 - ALPHA y BETA indican sendos valores correspondientes a los nodos ancestros a N en el árbol de búsqueda A.
 - JUGADOR_MAX y JUGADOR_MIN indican las fichas con las que juegan los respectivos jugadores.
 **/
-static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){}
+static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
+    if(es_max){
+        es_max--;
+        tEstado tab=(tEstado)n->elemento;
+
+    }
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -100,20 +106,36 @@ static int valor_utilidad(tEstado e, int jugador_max){}
 Computa y retorna una lista con aquellos estados que representan estados sucesores al estado E.
 Un estado sucesor corresponde a la clonación del estado E, junto con la incorporación de un nuevo movimiento
 realizado por el jugador cuya ficha es FICHA_JUGADOR por sobre una posición que se encuentra libre en el estado E.
-La lista de estados sucesores se debe ordenar de forma aleatoria, de forma tal que una doble invocación de la función 
+La lista de estados sucesores se debe ordenar de forma aleatoria, de forma tal que una doble invocación de la función
 estados_sucesores(estado, ficha) retornaría dos listas L1 y L2 tal que:
 - L1 y L2 tienen exactamente los mismos estados sucesores de ESTADO a partir de jugar FICHA.
 - El orden de los estado en L1 posiblemente sea diferente al orden de los estados en L2.
 **/
-static tLista estados_sucesores(tEstado e, int ficha_jugador){}
+static tLista estados_sucesores(tEstado e, int ficha_jugador){
+
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
 Inicializa y retorna un nuevo estado que resulta de la clonación del estado E.
 Para esto copia en el estado a retornar los valores actuales de la grilla del estado E, como su valor
-de utilidad. 
+de utilidad.
 **/
-static tEstado clonar_estado(tEstado e){}
+static tEstado clonar_estado(tEstado e){
+    tEstado ret=(tEstado) malloc (sizeof(struct estado));
+    if(ret==NULL)
+        exit(IA_ERROR_MEMORIA);
+    int grillaAux [3][3];
+    //copio la grilla
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+                grillaAux[i][j]=e->grilla[i][j];
+        }
+    }
+    ret->grilla=grillaAux;
+    ret->utilidad=e->utilidad;
+    return ret;
+}
 
 /**
 Computa la diferencia existente entre dos estados.
