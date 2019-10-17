@@ -3,7 +3,9 @@
 #include "lista.h"
 #include "arbol.h"
 #include "ia.h"
+#include "partida.h"
 
+tPartida pGlobal=NULL;
 // Prototipos de funciones auxiliares.
 static void ejecutar_min_max(tBusquedaAdversaria b);
 static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min);
@@ -15,7 +17,7 @@ static tEstado clonar_estado(tEstado e);
 void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     int i, j;
     tEstado estado;
-
+    pGlobal=p;
     (*b) = (tBusquedaAdversaria) malloc(sizeof(struct busqueda_adversaria));
     if ((*b) == NULL) exit(IA_ERROR_MEMORIA);
 
@@ -50,7 +52,10 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
 */
-void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){}
+void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
+    if(pGlobal!=NULL)
+        nuevo_movimiento(pGlobal,*x,*y);
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -65,6 +70,7 @@ void destruir_busqueda_adversaria(tBusquedaAdversaria * b){}
 Ordena la ejecución del algoritmo Min-Max para la generación del árbol de búsqueda adversaria, considerando como
 estado inicial el estado de la partida almacenado en el árbol almacenado en B.
 **/
+//este comentario esta mal,no contempla el hecho de que si le pasas un arbol ya creado lo destruye y crea arriba
 static void ejecutar_min_max(tBusquedaAdversaria b){
     tArbol a = b->arbol_busqueda;
     tNodo r = a_raiz(a);
@@ -87,10 +93,96 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     if(es_max){
         es_max--;
         tEstado tab=(tEstado)n->elemento;
-
+        tLista sucesores=n->hijos;
+        sucesores=estados_sucesores(tab,jugador_max); //son estados min
+        int inicio=0,fin=l_longitud(sucesores);
+        tPosicion pActual=l_primera(sucesores);
+        tNodo nActual;
+        int sigo=1; //bandera
+        int utilidad;
+        while(inicio!=fin && sigo){
+            nActual=l_recuperar(sucesores,pActual);
+            utilidad=valor_utilidad(tab,jugador_max);
+            if(utilidad==IA_NO_TERMINO) //la linea de abajo me hace ruido
+                crear_sucesores_min_max(a,nActual,es_max,alpha,beta,jugador_max,jugador_min);
+            else
+                if(utilidad>alpha)
+                    alpha=utilidad;
+            if(utilidad==IA_GANA_MAX)
+                sigo=0;
+            pActual=l_siguiente(sucesores,pActual);
+            inicio++;
+        }
     }
+    else
+        //similar al if preguntar si el algoritmo va encaminado
 }
 
+int gano(tPartida p, int ficha){
+    tTablero t=p->tablero;
+    int gano=0;
+    int i=0;
+    while(gano!=3 || i<3){
+        for(int j=0; j<3; j++){
+            if(t->grilla[i][j]==ficha)
+                gano++;
+            }
+        if(gano<3)
+            gano=0;
+        i++;
+    }
+    if(gano>=3)
+        return 1; //gano
+    else
+        gano=0;
+
+    int j=0;
+    while(gano!=3 || j<3){
+        for(int i=0; i<3; i++){
+            if(t->grilla[i][j]==ficha)
+                gano++;
+            }
+        if(gano<3)
+            gano=0;
+        j++;
+    }
+    if(gano>=3)
+        return 1; //gano
+    else
+        gano=0;
+
+    //diagonal hardcodeada x2
+    i=0; j=0;
+    while(j<3 && i<3){
+        if(t->grilla[i][j]==ficha)
+            gano++;
+        else{
+            j=2;
+            i=2;
+        }
+    i++;
+    j++;
+    }
+    if(gano>=3)
+        return 1; //gano
+    else
+        gano=0;
+    while(j>0 && i<3){
+        j--;
+        i--;
+        if(t->grilla[i][j]==ficha)
+            gano++;
+        else{
+            j=0;
+            i=0;
+        }
+    }
+    if(gano>=3)
+        return 1; //gano
+    else
+        return gano=0;
+
+}
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
 Computa el valor de utilidad correspondiente al estado E, y la ficha correspondiente al JUGADOR_MAX, retornado:
@@ -99,7 +191,11 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_PIERDE_MAX si el estado E refleja una jugada en el que el JUGADOR_MAX perdió la partida.
 - IA_NO_TERMINO en caso contrario.
 **/
-static int valor_utilidad(tEstado e, int jugador_max){}
+static int valor_utilidad(tEstado e, int jugador_max){
+    if(pGlobal->estado==PART_SIN_MOVIMIENTO)
+        return IA_NO_TERMINO;
+    //falta el resto
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -125,14 +221,12 @@ static tEstado clonar_estado(tEstado e){
     tEstado ret=(tEstado) malloc (sizeof(struct estado));
     if(ret==NULL)
         exit(IA_ERROR_MEMORIA);
-    int grillaAux [3][3];
     //copio la grilla
     for(int i=0;i<3;i++){
         for(int j=0;j<3;j++){
-                grillaAux[i][j]=e->grilla[i][j];
+            ret->grilla[i][j]=e->grilla[i][j];
         }
     }
-    ret->grilla=grillaAux;
     ret->utilidad=e->utilidad;
     return ret;
 }

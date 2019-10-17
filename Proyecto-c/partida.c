@@ -132,13 +132,17 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
     else{
         if(p->turno_de==PART_JUGADOR_1){
             t->grilla[mov_x][mov_y]=1;
-            if(gano(p,1))
+            if(gano(p,1)){
                 return PART_GANA_JUGADOR_1;
+            }
+                p->turno_de=PART_JUGADOR_2;
         }
         else{
             t->grilla[mov_x][mov_y]=2;
-            if(gano(p,2))
+            if(gano(p,2)){
                 return PART_GANA_JUGADOR_2;
+            }
+                p->turno_de=PART_JUGADOR_1;
         }
     }
     return PART_MOVIMIENTO_OK;
