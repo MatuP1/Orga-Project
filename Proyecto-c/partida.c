@@ -16,6 +16,12 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
     (*p)->modo_partida=modo_partida;
     (*p)->turno_de=comienza;       //si es jugador random que?
     (*p)->estado=PART_EN_JUEGO;
+    if(comienza==PART_JUGADOR_RANDOM){
+        if(rand() % 2 == 0)
+            (*p)->turno_de=PART_JUGADOR_1;
+        else
+            (*p)->turno_de=PART_JUGADOR_2;
+    }
 
     //seteo nombres sin chequeo
     char guarda='\0';
@@ -41,7 +47,7 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
     }
 }
 
-int gano(tPartida p, int ficha){
+int ganoP(tPartida p, int ficha){
     tTablero t=p->tablero;
     int gano=0;
     int i=0;
@@ -132,14 +138,14 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
     else{
         if(p->turno_de==PART_JUGADOR_1){
             t->grilla[mov_x][mov_y]=1;
-            if(gano(p,1)){
+            if(ganoP(p,1)){
                 return PART_GANA_JUGADOR_1;
             }
                 p->turno_de=PART_JUGADOR_2;
         }
         else{
             t->grilla[mov_x][mov_y]=2;
-            if(gano(p,2)){
+            if(ganoP(p,2)){
                 return PART_GANA_JUGADOR_2;
             }
                 p->turno_de=PART_JUGADOR_1;

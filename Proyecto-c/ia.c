@@ -7,6 +7,10 @@
 
 tPartida pGlobal=NULL;
 // Prototipos de funciones auxiliares.
+void fElimBusq(void * est){
+    free(est);
+    est=NULL;
+}
 static void ejecutar_min_max(tBusquedaAdversaria b);
 static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min);
 static int valor_utilidad(tEstado e, int jugador_max);
@@ -53,14 +57,34 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 >>>>>  A IMPLEMENTAR   <<<<<
 */
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
-    if(pGlobal!=NULL)
-        nuevo_movimiento(pGlobal,*x,*y);
+    ejecutar_min_max(b);
+    tEstado mayorUtilidad;
+    tLista movimientos=a_hijos(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
+    tPosicion inicio=l_primera(movimientos);
+    tNodo movimientoActual=(tNodo)inicio->elemento;
+    tEstado estadoActual=(tEstado)movimientoActual->elemento;
+    mayorUtilidad=estadoActual;
+    for(int i=0;i<l_longitud(movimientos);i++){
+        if(mayorUtilidad->utilidad<estadoActual->utilidad)
+            mayorUtilidad=estadoActual;
+        inicio=l_siguiente(movimientos,inicio);
+        movimientoActual=(tNodo)inicio->elemento;
+        estadoActual=(tEstado)movimientoActual->elemento;
+    }
+    tEstado raiz=(tEstado)a_recuperar(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
+    diferencia_estados(raiz,mayorUtilidad,x,y);
 }
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
 **/
-void destruir_busqueda_adversaria(tBusquedaAdversaria * b){}
+void destruir_busqueda_adversaria(tBusquedaAdversaria * b){
+    a_destruir(&(*b)->arbol_busqueda,fElimBusq);
+    free(*b);
+    *b=NULL;
+    free(b);
+    b=NULL;
+}
 
 // ===============================================================================================================
 // FUNCIONES Y PROCEDEMIENTOS AUXILIARES
@@ -70,7 +94,6 @@ void destruir_busqueda_adversaria(tBusquedaAdversaria * b){}
 Ordena la ejecución del algoritmo Min-Max para la generación del árbol de búsqueda adversaria, considerando como
 estado inicial el estado de la partida almacenado en el árbol almacenado en B.
 **/
-//este comentario esta mal,no contempla el hecho de que si le pasas un arbol ya creado lo destruye y crea arriba
 static void ejecutar_min_max(tBusquedaAdversaria b){
     tArbol a = b->arbol_busqueda;
     tNodo r = a_raiz(a);
@@ -93,7 +116,7 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     if(es_max){
         es_max--;
         tEstado tab=(tEstado)n->elemento;
-        tLista sucesores=n->hijos;
+        tLista sucesores=a_hijos(a,n);
         sucesores=estados_sucesores(tab,jugador_max); //son estados min
         int inicio=0,fin=l_longitud(sucesores);
         tPosicion pActual=l_primera(sucesores);
@@ -114,47 +137,56 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             inicio++;
         }
     }
-    else
+    else{}
         //similar al if preguntar si el algoritmo va encaminado
 }
 
-int gano(tPartida p, int ficha){
-    tTablero t=p->tablero;
+int gano(tEstado e, int ficha){
+   // tTablero t=p->tablero;
     int gano=0;
     int i=0;
     while(gano!=3 || i<3){
         for(int j=0; j<3; j++){
-            if(t->grilla[i][j]==ficha)
+            if(e->grilla[i][j]==ficha)
                 gano++;
             }
-        if(gano<3)
-            gano=0;
+        if(gano<3){
+            if(gano==0)
+                return IA_PIERDE_MAX;
+            else
+                gano=0;
+        }
         i++;
     }
     if(gano>=3)
-        return 1; //gano
+        return IA_GANA_MAX; //gano
     else
         gano=0;
+
 
     int j=0;
     while(gano!=3 || j<3){
         for(int i=0; i<3; i++){
-            if(t->grilla[i][j]==ficha)
+            if(e->grilla[i][j]==ficha)
                 gano++;
             }
-        if(gano<3)
-            gano=0;
+        if(gano<3){
+            if(gano==0)
+                return IA_PIERDE_MAX;
+            else
+                gano=0;
+        }
         j++;
     }
     if(gano>=3)
-        return 1; //gano
+        return IA_GANA_MAX; //gano
     else
         gano=0;
 
     //diagonal hardcodeada x2
     i=0; j=0;
     while(j<3 && i<3){
-        if(t->grilla[i][j]==ficha)
+        if(e->grilla[i][j]==ficha)
             gano++;
         else{
             j=2;
@@ -164,13 +196,18 @@ int gano(tPartida p, int ficha){
     j++;
     }
     if(gano>=3)
-        return 1; //gano
+        return IA_GANA_MAX; //gano
     else
-        gano=0;
+        if(gano==0){
+            return IA_PIERDE_MAX;
+        }
+        else
+            gano=0;
+
     while(j>0 && i<3){
         j--;
         i--;
-        if(t->grilla[i][j]==ficha)
+        if(e->grilla[i][j]==ficha)
             gano++;
         else{
             j=0;
@@ -178,10 +215,12 @@ int gano(tPartida p, int ficha){
         }
     }
     if(gano>=3)
-        return 1; //gano
+        return IA_GANA_MAX; //gano
     else
-        return gano=0;
-
+    if(gano==0){
+        return IA_PIERDE_MAX;
+    }
+        return IA_EMPATA_MAX;
 }
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -192,9 +231,9 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_NO_TERMINO en caso contrario.
 **/
 static int valor_utilidad(tEstado e, int jugador_max){
-    if(pGlobal->estado==PART_SIN_MOVIMIENTO)
+    if(pGlobal->estado!=PART_SIN_MOVIMIENTO)
         return IA_NO_TERMINO;
-    //falta el resto
+    return gano(e,jugador_max);
 }
 
 /**
@@ -208,7 +247,54 @@ estados_sucesores(estado, ficha) retornaría dos listas L1 y L2 tal que:
 - El orden de los estado en L1 posiblemente sea diferente al orden de los estados en L2.
 **/
 static tLista estados_sucesores(tEstado e, int ficha_jugador){
-
+    struct par{
+        int x;
+        int y;
+    };
+    typedef struct par * tPar;
+    tLista sucesores;
+    crear_lista(&sucesores);
+    tPar coorVacias[9];
+    int lugaresVacios=0;
+    int i,j;
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            if(e->grilla[i][j]==0){
+                coorVacias[lugaresVacios]=(tPar) malloc (sizeof(struct par));
+                coorVacias[lugaresVacios]->x=i;
+                coorVacias[lugaresVacios]->y=j;
+                lugaresVacios++;
+            }
+        }
+    }
+    i=0;
+    tEstado aux;
+    while(i<lugaresVacios){
+            int xAux,yAux;
+            xAux=coorVacias[i]->x;
+            yAux=coorVacias[i]->y;
+            aux=(tEstado) malloc (sizeof(struct estado));
+            aux=clonar_estado(e);
+            aux->grilla[xAux][yAux]=ficha_jugador;
+            aux->utilidad=valor_utilidad(aux,ficha_jugador);
+            int r=rand();
+            //insercion random
+            if((r%lugaresVacios)%3==0)
+                l_insertar(sucesores,l_primera(sucesores),aux);
+            else{
+                if((r%lugaresVacios)%3==1){
+                    tPosicion p=l_primera(sucesores);
+                    for(j=0;j<i;j++){
+                        p=l_siguiente(sucesores,p);
+                    }
+                    l_insertar(sucesores,p,aux);
+                }
+                else
+                    l_insertar(sucesores,NULL,aux);
+            }
+            i++;
+    }
+    return sucesores;
 }
 
 /**
