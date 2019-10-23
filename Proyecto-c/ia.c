@@ -5,7 +5,6 @@
 #include "ia.h"
 #include "partida.h"
 
-tPartida pGlobal=NULL;
 // Prototipos de funciones auxiliares.
 void fElimBusq(void * est){
     free(est);
@@ -18,10 +17,85 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador);
 static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y);
 static tEstado clonar_estado(tEstado e);
 
+
+
+void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
+    tEstado raiz = (tEstado) a_raiz(b)->elemento;
+    minimax(raiz,p->turno_de,IA_INFINITO_NEG,IA_INFINITO_POS);
+
+}
+
+int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
+    //Declaracion de variables.
+    int mejorValorSucesores;
+    int valorSucesor;
+    int resultadoEstado = gano(estado,esJugadorMax);
+    tLista sucesores;
+    tPosicion posActualSucesores;
+    tPosicion finSucesores;
+    tEstado elemento;
+    int encontro = 0;
+
+
+    if(resultadoEstado==IA_GANA_MAX||resultadoEstado==IA_EMPATA_MAX||resultadoEstado==IA_PIERDE_MAX)
+        return valor_utilidad(estado,esJugadorMax);
+
+    if(esJugadorMax){//Como carajo esJugadorMax==boolean?
+        mejorValorSucesores = IA_INFINITO_NEG;
+        sucesores = estados_sucesores(estado,esJugadorMax);
+        posActualSucesores = l_primera(sucesores);
+        finSucesores = l_fin(sucesores);
+
+        while(posActualSucesores!=finSucesores&&!encontro){
+                elemento = (tEstado) l_recuperar(sucesores,posActualSucesores);
+                valorSucesor = minimax(elemento,esJugadorMax,alpha,beta);
+
+                if(valorSucesor>mejorValorSucesores)
+                    mejorValorSucesores= valorSucesor;
+
+                if(alpha<mejorValorSucesores)
+                    alpha = mejorValorSucesores;
+
+                if(beta<=alpha){
+                    encontro = 1;//Necesito el encontro o solamenete necesito el return?
+                    return mejorValorSucesores;
+                }
+
+                posActualSucesores = l_siguiente(sucesores,posActualSucesores);
+
+        }
+    }
+    else{
+        mejorValorSucesores = IA_INFINITO_POS;
+        sucesores = estados_sucesores(estado,esJugadorMax);
+        posActualSucesores = l_primera(sucesores);
+        finSucesores = l_fin(sucesores);
+
+        while(posActualSucesores!=finSucesores&&!encontro){
+                elemento = (tEstado) l_recuperar(sucesores,posActualSucesores);
+                valorSucesor = minimax(elemento,esJugadorMax,alpha,beta);
+
+                if(valorSucesor<mejorValorSucesores)
+                    mejorValorSucesores = valorSucesor;
+
+                if(mejorValorSucesores<beta)
+                    beta = mejorValorSucesores;
+
+                if(beta<=alpha){
+                    encontro = 1;
+                    return mejorValorSucesores;
+                }
+
+                posActualSucesores = l_siguiente(sucesores,posActualSucesores);
+
+        }
+    }
+
+}
+/**
 void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     int i, j;
     tEstado estado;
-    pGlobal=p;
     (*b) = (tBusquedaAdversaria) malloc(sizeof(struct busqueda_adversaria));
     if ((*b) == NULL) exit(IA_ERROR_MEMORIA);
 
@@ -51,7 +125,7 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 
     // Ejecuta algoritmo Min-Max con podas Alpha-Beta.
     ejecutar_min_max((*b));
-}
+}*/
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -64,7 +138,7 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
     tNodo movimientoActual=(tNodo)inicio->elemento;
     tEstado estadoActual=(tEstado)movimientoActual->elemento;
     mayorUtilidad=estadoActual;
-    for(int i=0;i<l_longitud(movimientos);i++){
+    for(int i=0;i<l_longitud(movimientos-1);i++){ //me caigo de la lista??
         if(mayorUtilidad->utilidad<estadoActual->utilidad)
             mayorUtilidad=estadoActual;
         inicio=l_siguiente(movimientos,inicio);
@@ -127,7 +201,7 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             nActual=l_recuperar(sucesores,pActual);
             utilidad=valor_utilidad(tab,jugador_max);
             if(utilidad==IA_NO_TERMINO) //la linea de abajo me hace ruido
-                crear_sucesores_min_max(a,nActual,es_max,alpha,beta,jugador_max,jugador_min);
+                crear_sucesores_min_max(a,nActual,!es_max,alpha,beta,jugador_max,jugador_min);
             else
                 if(utilidad>alpha)
                     alpha=utilidad;
@@ -142,85 +216,93 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
 }
 
 int gano(tEstado e, int ficha){
-   // tTablero t=p->tablero;
-    int gano=0;
+    int gano1=0;
+    int gano2=0;
+
+    int ficha1=ficha;
+    int ficha2=0;
+
+    int espaciosVacios=0;
     int i=0;
-    while(gano!=3 || i<3){
-        for(int j=0; j<3; j++){
-            if(e->grilla[i][j]==ficha)
-                gano++;
+
+    if(ficha==PART_JUGADOR_1)
+        ficha2=PART_JUGADOR_2;
+    else{
+        ficha2=PART_JUGADOR_1;
+    }
+        while(gano1!=3 || gano2!=3 || i<3){
+            for(int j=0; j<3; j++){
+                if(e->grilla[i][j]==ficha1)
+                    gano1++;
+                if(e->grilla[i][j]==ficha2)
+                    gano2++;
+                if(e->grilla[i][j]==0){
+                    espaciosVacios++;
+                }
             }
-        if(gano<3){
-            if(gano==0)
+            if(gano1>=3)
+                return IA_GANA_MAX;
+            if(gano2>=3)
                 return IA_PIERDE_MAX;
-            else
-                gano=0;
+            gano2=0;
+            gano1=0;
+            i++;
         }
-        i++;
-    }
-    if(gano>=3)
-        return IA_GANA_MAX; //gano
-    else
-        gano=0;
-
-
-    int j=0;
-    while(gano!=3 || j<3){
-        for(int i=0; i<3; i++){
-            if(e->grilla[i][j]==ficha)
-                gano++;
-            }
-        if(gano<3){
-            if(gano==0)
+        int j=0;
+        while(gano1!=3 || gano2!=3 || j<3){
+            for(i=0; i<3; i++){
+                if(e->grilla[i][j]==ficha1)
+                    gano1++;
+                if(e->grilla[i][j]==ficha2)
+                    gano2++;
+                if(e->grilla[i][j]==0)
+                    espaciosVacios++;
+                }
+            if(gano1>=3)
+                return IA_GANA_MAX;
+            if(gano2>=3)
                 return IA_PIERDE_MAX;
-            else
-                gano=0;
+            gano1=0;
+            gano2=0;
+            j++;
         }
-        j++;
-    }
-    if(gano>=3)
-        return IA_GANA_MAX; //gano
-    else
-        gano=0;
-
-    //diagonal hardcodeada x2
-    i=0; j=0;
-    while(j<3 && i<3){
-        if(e->grilla[i][j]==ficha)
-            gano++;
-        else{
-            j=2;
-            i=2;
+        //diagonal hardcodeada x2
+        i=0; j=0;
+        while(j<3 && i<3){
+            if(e->grilla[i][j]==ficha1)
+                gano1++;
+            if(e->grilla[i][j]==ficha2)
+                gano2++;
+            if(e->grilla[i][j]==0)
+                espaciosVacios++;
+            i++;
+            j++;
         }
-    i++;
-    j++;
-    }
-    if(gano>=3)
-        return IA_GANA_MAX; //gano
-    else
-        if(gano==0){
+        if(gano1>=3)
+            return IA_GANA_MAX; //gano1
+        if(gano2>=3)
             return IA_PIERDE_MAX;
-        }
-        else
-            gano=0;
 
-    while(j>0 && i<3){
-        j--;
-        i--;
-        if(e->grilla[i][j]==ficha)
-            gano++;
-        else{
-            j=0;
-            i=0;
+        gano1=0;
+        gano2=0;
+
+        while(j>0 && i<3){
+            j--;
+            i--;
+            if(e->grilla[i][j]==ficha1)
+                gano1++;
+            if(e->grilla[i][j]==ficha2)
+                gano2++;
+            if(e->grilla[i][j]==0)
+                espaciosVacios++;
         }
-    }
-    if(gano>=3)
-        return IA_GANA_MAX; //gano
-    else
-    if(gano==0){
-        return IA_PIERDE_MAX;
-    }
-        return IA_EMPATA_MAX;
+        if(gano1>=3)
+            return IA_GANA_MAX; //gano1
+        if(gano2>=3)
+            return IA_PIERDE_MAX;
+        if(espaciosVacios==0)
+            return IA_EMPATA_MAX;
+    return IA_NO_TERMINO;
 }
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -231,8 +313,6 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_NO_TERMINO en caso contrario.
 **/
 static int valor_utilidad(tEstado e, int jugador_max){
-    if(pGlobal->estado!=PART_SIN_MOVIMIENTO)
-        return IA_NO_TERMINO;
     return gano(e,jugador_max);
 }
 

@@ -68,7 +68,7 @@
 
 1569678181 d:\universidad\orga\proyecto\orga-project\proyecto-c\partida.h
 
-1571662841 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\ia.c
+1571792007 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\ia.c
 	<stdlib.h>
 	"lista.h"
 	"arbol.h"
@@ -98,7 +98,7 @@
 	"arbol.h"
 	"lista.h"
 
-1570655165 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testgeneral.c
+1571791760 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testgeneral.c
 	"TestArbol.h"
 
 1570652848 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.c
@@ -127,4 +127,11 @@
 	"partida.h"
 	"stdlib.h"
 	"stdio.h"
+
+1571800983 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\programaprincipal.c
+	<stdio.h>
+	<stdlib.h>
+	"partida.h"
+	<wchar.h>
+	<locale.h>
 

@@ -1,5 +1,5 @@
 #include "TestArbol.h"
-int main(){
-    a_main();
+int mainG(){
+
     return 0;
 }
