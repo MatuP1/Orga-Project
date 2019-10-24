@@ -16,14 +16,10 @@ static int valor_utilidad(tEstado e, int jugador_max);
 static tLista estados_sucesores(tEstado e, int ficha_jugador);
 static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y);
 static tEstado clonar_estado(tEstado e);
+int gano(tEstado e, int ficha);
 
 
 
-void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
-    tEstado raiz = (tEstado) a_raiz(b)->elemento;
-    minimax(raiz,p->turno_de,IA_INFINITO_NEG,IA_INFINITO_POS);
-
-}
 
 int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
     //Declaracion de variables.
@@ -48,7 +44,7 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
 
         while(posActualSucesores!=finSucesores&&!encontro){
                 elemento = (tEstado) l_recuperar(sucesores,posActualSucesores);
-                valorSucesor = minimax(elemento,esJugadorMax,alpha,beta);
+                valorSucesor = minimax(elemento,0,alpha,beta);//Este esta bien.Creo, le paso 0 para que vaya al else.
 
                 if(valorSucesor>mejorValorSucesores)
                     mejorValorSucesores= valorSucesor;
@@ -73,7 +69,7 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
 
         while(posActualSucesores!=finSucesores&&!encontro){
                 elemento = (tEstado) l_recuperar(sucesores,posActualSucesores);
-                valorSucesor = minimax(elemento,esJugadorMax,alpha,beta);
+                valorSucesor = minimax(elemento,1,alpha,beta);//Este le paso para que en el sig vaya al if y no al else
 
                 if(valorSucesor<mejorValorSucesores)
                     mejorValorSucesores = valorSucesor;
@@ -92,7 +88,7 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
     }
 
 }
-/**
+
 void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     int i, j;
     tEstado estado;
@@ -125,7 +121,7 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 
     // Ejecuta algoritmo Min-Max con podas Alpha-Beta.
     ejecutar_min_max((*b));
-}*/
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<

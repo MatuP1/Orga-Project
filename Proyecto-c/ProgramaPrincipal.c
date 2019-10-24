@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "partida.h"
-#include <wchar.h>
-#include <locale.h>
+
 
 //Declaracion de funciones.
 void printActualGame(tTablero tablero);
@@ -10,7 +9,7 @@ void printActualGame(tTablero tablero);
 
 
 int main(){
-     setlocale(LC_ALL, "");
+/**
     //Declaracion de variables.
     //tTablero tablero; poque se crashea cuando hago tablero = partida ->tablero;
     tPartida partida;
@@ -40,20 +39,24 @@ int main(){
 
             printf("Indique '1' si empieza el jugador 1, '2' si empieza el jugador 2 o '3' para seleccion aleatoria.\n");
             scanf("%i",&turno);
-
+            printf("antes");
             if(turno==1)
                 nueva_partida(&partida,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_1,nombreJugador1,nombreJugador2);
             if(turno==2)
                 nueva_partida(&partida,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_2,nombreJugador1,nombreJugador2);
             if(turno==3)
                 nueva_partida(&partida,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_RANDOM,nombreJugador1,nombreJugador2);
-
+            printf("despues");
             printActualGame(partida->tablero);
-
-
-
-
     }
+
+*/ tPartida partida;
+    char nombreJugador1[50];
+    char nombreJugador2[50];
+    nueva_partida(&partida,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_1,nombreJugador1,nombreJugador2);
+    tTablero tablero= partida->tablero;
+
+
 
 
 
@@ -72,9 +75,8 @@ return 0;
 }
 
 void printActualGame(tTablero tablero){
-    setlocale(LC_ALL, "");
-    wprintf(L"┌|---┬---┬---┐\n");
+    printf("---┬---┬---\n");
     if(tablero->grilla[0][0]==0)
-        wprintf(L"|   |");
-    freopen(NULL, "w", stdout);
+       printf("|   |");
+
 }

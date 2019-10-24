@@ -53,16 +53,17 @@
 	<stdlib.h>
 	<stdio.h>
 
-1569678181 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\ia.c
+1571957353 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\ia.c
 	<stdlib.h>
 	"lista.h"
 	"arbol.h"
 	"ia.h"
+	"partida.h"
 
 1569678181 d:\universidad\orga\proyecto\orga-project\proyecto-c\arbol.h
 	"lista.h"
 
-1569678181 d:\universidad\orga\proyecto\orga-project\proyecto-c\ia.h
+1571625093 d:\universidad\orga\proyecto\orga-project\proyecto-c\ia.h
 	"arbol.h"
 	"partida.h"
 
@@ -107,15 +108,16 @@
 	"arbol.h"
 	"lista.h"
 
-1570576228 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testgeneral.c
+1571861312 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testgeneral.c
+	"TestArbol.h"
 
-1570648613 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testarbol.c
+1570896434 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\testarbol.c
 	<stdlib.h>
 	<stdio.h>
 	"arbol.h"
 	"lista.h"
 
-1570646310 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\arbol.c
+1570896434 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\arbol.c
 	"lista.h"
 	"arbol.h"
 	<stdio.h>
@@ -134,4 +136,16 @@
 	"partida.h"
 	<wchar.h>
 	<locale.h>
+
+1571691150 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\partida.c
+	"partida.h"
+	"stdlib.h"
+	"stdio.h"
+
+1570655740 d:\universidad\orga\proyecto\orga-project\proyecto-c\testarbol.h
+
+1571957531 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\programaprincipal.c
+	<stdio.h>
+	<stdlib.h>
+	"partida.h"
 
