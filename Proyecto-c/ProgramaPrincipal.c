@@ -4,19 +4,24 @@
 
 
 //Declaracion de funciones.
-void printActualGame(tTablero tablero);
 
+void printActualGame(tTablero tablero){
+    printf("---┬---┬---\n");
+    if(tablero->grilla[0][0]==0)
+       printf("|   |");
+
+}
 
 
 int main(){
-/**
+
     //Declaracion de variables.
     //tTablero tablero; poque se crashea cuando hago tablero = partida ->tablero;
-    tPartida partida;
+    tPartida part;
     char nombreJugador1[50];
     char nombreJugador2[50];
-    int turno;
-    int modo;
+    int turno=0;
+    int modo=0;
     int buenModo = 0;
 
 
@@ -24,7 +29,7 @@ int main(){
     printf("Indique el modo de partida\n1.Jugador vs Jugador\n2.Jugador vs Maquina\n3.Maquina vs Maquina\n");
     scanf("%i",&modo);
 
-    if(modo!=1&&modo!=2&&modo!=3){
+    if(modo!=1 && modo!=2 && modo!=3){
         printf("No selecciono un modo correcto de partida\n");
     }
     else
@@ -36,26 +41,19 @@ int main(){
             scanf("%s",nombreJugador1);
             printf("Indique nombre de Jugador 2.\n");
             scanf("%s",nombreJugador2);
-
+            printf("%s\n",nombreJugador1);
             printf("Indique '1' si empieza el jugador 1, '2' si empieza el jugador 2 o '3' para seleccion aleatoria.\n");
             scanf("%i",&turno);
             printf("antes");
             if(turno==1)
-                nueva_partida(&partida,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_1,nombreJugador1,nombreJugador2);
+                nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_1,nombreJugador1,nombreJugador2);
             if(turno==2)
-                nueva_partida(&partida,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_2,nombreJugador1,nombreJugador2);
+                nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_2,nombreJugador1,nombreJugador2);
             if(turno==3)
-                nueva_partida(&partida,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_RANDOM,nombreJugador1,nombreJugador2);
+                nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_RANDOM,nombreJugador1,nombreJugador2);
             printf("despues");
-            printActualGame(partida->tablero);
+            printActualGame(part->tablero);
     }
-
-*/ tPartida partida;
-    char nombreJugador1[50];
-    char nombreJugador2[50];
-    nueva_partida(&partida,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_1,nombreJugador1,nombreJugador2);
-    tTablero tablero= partida->tablero;
-
 
 
 
@@ -72,11 +70,4 @@ int main(){
 
 
 return 0;
-}
-
-void printActualGame(tTablero tablero){
-    printf("---┬---┬---\n");
-    if(tablero->grilla[0][0]==0)
-       printf("|   |");
-
 }

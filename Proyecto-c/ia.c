@@ -25,7 +25,7 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
     //Declaracion de variables.
     int mejorValorSucesores;
     int valorSucesor;
-    int resultadoEstado = gano(estado,esJugadorMax);
+    int  resultadoEstado = gano(estado,esJugadorMax);
     tLista sucesores;
     tPosicion posActualSucesores;
     tPosicion finSucesores;
