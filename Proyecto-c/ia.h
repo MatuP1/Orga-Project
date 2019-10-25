@@ -15,7 +15,7 @@
 #define IA_ERROR_MEMORIA    1006
 
 struct busqueda_adversaria{
-    tArbol arbol_busqueda; // le falta la partida?
+    tArbol arbol_busqueda;
     int jugador_max;
     int jugador_min;
 };
