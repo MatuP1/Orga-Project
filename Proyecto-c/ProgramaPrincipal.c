@@ -79,7 +79,7 @@ int main(){
                                 buenModo=1;
                             }
                         }
-                        nuevo_movimiento(part,coordenadaX,coordenadaY);
+                        estadoPartida = nuevo_movimiento(part,coordenadaX,coordenadaY);
 
 
                     }
@@ -110,7 +110,7 @@ int main(){
             if(estadoPartida == PART_GANA_JUGADOR_1){
                 printf("Gano %s!!",nombreJugador1);
             }
-            if(estadoPartida ==PART_GANA_JUGADOR_2){
+            if(estadoPartida == PART_GANA_JUGADOR_2){
                 printf("Gano %s!!",nombreJugador2);
             }
             if(estadoPartida == PART_EMPATE){
@@ -166,7 +166,8 @@ int main(){
                                 buenModo=1;
                             }
                         }
-                        nuevo_movimiento(part,coordenadaX,coordenadaY);
+                        ///Realizo el movimiento.
+                        estadoPartida = nuevo_movimiento(part,coordenadaX,coordenadaY);
 
 
                     }
@@ -174,13 +175,12 @@ int main(){
                     if(part->turno_de == PART_JUGADOR_2){
                             ///Creo el arbol de busqueda adversaria.
                             crear_busqueda_adversaria(&maqBusqueda,part);
-                            ///Le pido el proximo movimiento a la maquina.
+                            ///Le pido el proximo movimiento a la maquina y realizo el movimiento.
                             proximo_movimiento(maqBusqueda,&coordenadaX,&coordenadaY);
 
                             }
             }
-            ///Realizo el movimiento y actualizo el estado de la partida.
-            estadoPartida = nuevo_movimiento(part,coordenadaX,coordenadaY);
+
 
             ///Muestro el resultado de la partida(No es posible que gane el jugador).
             if(estadoPartida ==PART_GANA_JUGADOR_2){
@@ -194,6 +194,7 @@ int main(){
 
 
     }
+    ///Modo maquina vs maquina.
     if(modo==3){
         printf("Por favor, compre el dlc para adquirir esta funcion");
     }
