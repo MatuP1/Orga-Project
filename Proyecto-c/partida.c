@@ -4,10 +4,10 @@
 
 void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombre, char * j2_nombre){
 
-    p=(tPartida *) malloc (sizeof(tPartida));
+  /*  p=(tPartida *) malloc (sizeof(tPartida));
     if(p==NULL)
         exit(PART_ERROR_MEMORIA);
-
+*/
     *p=(tPartida) malloc (sizeof(struct partida));
     if((*p)==NULL)
         exit(PART_ERROR_MEMORIA);

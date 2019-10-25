@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "partida.h"
 #include "ia.h"
+#include "arbol.h"
+#include "lista.h"
 
 
 //Declaracion de funciones.
@@ -13,8 +15,8 @@ int main(){
 
     //Declaracion de variables.
     //tTablero tablero; poque se crashea cuando hago tablero = partida ->tablero;
-    tPartida part = (tPartida)malloc(sizeof(int));
-    tTablero tab = (tTablero)malloc(sizeof(int));
+    tPartida part = (tPartida)malloc(sizeof(struct partida));
+    tTablero tab = (tTablero)malloc(sizeof(struct tablero));
     char nombreJugador1[50];
     char nombreJugador2[50];
     int turno=0;
@@ -55,6 +57,7 @@ int main(){
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_RANDOM,nombreJugador1,nombreJugador2);
 
             ///Muestro el tablero vacio.
+            printf("%i",part->tablero->grilla[0][0]);
             tab = part->tablero;
             printActualGame(tab);
 
@@ -134,20 +137,23 @@ int main(){
             printf("Indique '1' si empieza el jugador 1, '2' si empieza la maquina 2 o '3' para seleccion aleatoria.\n");
             scanf("%i",&turno);
 
-            if(turno==1)
+            if(turno==1){
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_1,nombreJugador1,nombreJugador2);
-            if(turno==2)
+            }
+            if(turno==2){
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_2,nombreJugador1,nombreJugador2);
-            if(turno==3)
+            }
+            if(turno==3){
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_RANDOM,nombreJugador1,nombreJugador2);
+            }
 
             ///Muestro el tablero vacio.
-            tab = part->tablero;
-            printActualGame(tab);
-
+            //tab = part->tablero;
+          //  printActualGame(tab);
             ///Empieza la partida y no termina hasta que gana el jugador 1 el 2 o empatan.
             while(estadoPartida != PART_GANA_JUGADOR_1 && estadoPartida != PART_GANA_JUGADOR_2 && estadoPartida !=PART_EMPATE){
                     buenModo=0;
+                    printf("hasta aca estamos");
 
                     ///Turno Jugador 1.
                     if(part->turno_de == PART_JUGADOR_1){
@@ -177,8 +183,8 @@ int main(){
                             crear_busqueda_adversaria(&maqBusqueda,part);
                             ///Le pido el proximo movimiento a la maquina y realizo el movimiento.
                             proximo_movimiento(maqBusqueda,&coordenadaX,&coordenadaY);
-
-                            }
+                            nuevo_movimiento(part,coordenadaX,coordenadaY);
+                    }
             }
 
 
@@ -219,7 +225,7 @@ return 0;
 
 void printActualGame(tTablero tablero){
     printf("---┬---┬---\n");
-    if(tablero->grilla[1][2]==2)
+    if(tablero->grilla[1][2]==0)
        printf("|   |");
 
 }
