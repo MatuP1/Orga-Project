@@ -32,56 +32,63 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
     tEstado elemento;
     int encontro = 0;
 
-
+    ///Si es un estado final devuelve la utilidad.
     if(resultadoEstado==IA_GANA_MAX||resultadoEstado==IA_EMPATA_MAX||resultadoEstado==IA_PIERDE_MAX)
         return valor_utilidad(estado,esJugadorMax);
-
+    ///Si esJugadorMax !=0 significa que es un estado max.
     if(esJugadorMax){
+        ///Inicializo las variables.
         mejorValorSucesores = IA_INFINITO_NEG;
         sucesores = estados_sucesores(estado,esJugadorMax);
         posActualSucesores = l_primera(sucesores);
         finSucesores = l_fin(sucesores);
-
+        ///Exploro la lista de estados hijos del estado actual.
         while(posActualSucesores!=finSucesores&&!encontro){
+                ///Recupero el estado de la posicion de la lista de hijos.
                 elemento = (tEstado) l_recuperar(sucesores,posActualSucesores);
+                ///Accedo a una instancia recusiva con el estado hijo correspondiente a  la pos actual de la lista de hijos cambiando que ahora es un estado min.
                 valorSucesor = minimax(elemento,0,alpha,beta);//Este esta bien.Creo, le paso 0 para que vaya al else.
-
+                ///Si la utilidad del hijo es mayor a la anteriormente calculada la reemplazo por el nuevo valor.
                 if(valorSucesor>mejorValorSucesores)
                     mejorValorSucesores= valorSucesor;
-
+                ///Si alpha es menor al nuevo valor de utilidad actualizo el valor de alpha con el nuevo valor de utilidad.
                 if(alpha<mejorValorSucesores)
                     alpha = mejorValorSucesores;
-
+                ///Si beta es menor  o igual a alpha, podo.
                 if(beta<=alpha){
                     encontro = 1;
                     return mejorValorSucesores;
                 }
-
+                ///Actualizo la posicion en la lista de hijos.
                 posActualSucesores = l_siguiente(sucesores,posActualSucesores);
 
         }
     }
+    ///Si esJugadorMax =0 significa que es un estado min.
     else{
+        ///Inicializo las variables.
         mejorValorSucesores = IA_INFINITO_POS;
         sucesores = estados_sucesores(estado,esJugadorMax);
         posActualSucesores = l_primera(sucesores);
         finSucesores = l_fin(sucesores);
-
+        ///Exploro la lista de estados hijos del estado actual.
         while(posActualSucesores!=finSucesores&&!encontro){
+                ///Recupero el estado de la posicion de la lista de hijos.
                 elemento = (tEstado) l_recuperar(sucesores,posActualSucesores);
+                ///Accedo a una instancia recusiva con el estado hijo correspondiente a  la pos actual de la lista de hijos cambiando que ahora es un estado max.
                 valorSucesor = minimax(elemento,1,alpha,beta);//Este le paso para que en el sig vaya al if y no al else
-
+                ///Si la utilidad del hijo es menor a la anteriormente calculada la reemplazo por el nuevo valor.
                 if(valorSucesor<mejorValorSucesores)
                     mejorValorSucesores = valorSucesor;
-
+                ///Si beta es mayor al nuevo valor de utilidad actualizo el valor de alpha con el nuevo valor de utilidad.
                 if(mejorValorSucesores<beta)
                     beta = mejorValorSucesores;
-
+                ///Si beta es menor  o igual a alpha, podo.
                 if(beta<=alpha){
                     encontro = 1;
                     return mejorValorSucesores;
                 }
-
+                ///Actualizo la posicion en la lista de hijos.
                 posActualSucesores = l_siguiente(sucesores,posActualSucesores);
 
         }
