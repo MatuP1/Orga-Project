@@ -53,7 +53,7 @@
 	<stdlib.h>
 	<stdio.h>
 
-1571957353 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\ia.c
+1571965896 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\ia.c
 	<stdlib.h>
 	"lista.h"
 	"arbol.h"
@@ -135,14 +135,14 @@
 	<stdlib.h>
 	"partida.h"
 
-1571691150 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\partida.c
+1571970164 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\partida.c
 	"partida.h"
 	"stdlib.h"
 	"stdio.h"
 
 1570655740 d:\universidad\orga\proyecto\orga-project\proyecto-c\testarbol.h
 
-1571957531 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\programaprincipal.c
+1571969935 source:d:\universidad\orga\proyecto\orga-project\proyecto-c\programaprincipal.c
 	<stdio.h>
 	<stdlib.h>
 	"partida.h"

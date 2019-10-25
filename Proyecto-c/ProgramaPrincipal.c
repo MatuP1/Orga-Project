@@ -19,7 +19,9 @@ int main(){
     int turno=0;
     int modo=0;
     int buenModo = 0;
-    int estadoPartdida=0;
+    int estadoPartida=111;
+    int coordenadaX;
+    int coordenadaY;
 
 
     while(!buenModo){
@@ -48,13 +50,72 @@ int main(){
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_2,nombreJugador1,nombreJugador2);
             if(turno==3)
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_RANDOM,nombreJugador1,nombreJugador2);
+
             ///Muestro el tablero vacio.
             tab = part->tablero;
             printActualGame(tab);
-            while(!(estadoPartdida)){
+
+            ///Empieza la partida y no termina hasta que gana el jugador 1 el 2 o empatan.
+            while(estadoPartida != PART_GANA_JUGADOR_1 && estadoPartida != PART_GANA_JUGADOR_2 && estadoPartida !=PART_EMPATE){
+                    buenModo=0;
+
+                    ///Turno Jugador 1.
+                    if(part->turno_de == PART_JUGADOR_1){
+                        while(!buenModo){
+                            printf("%s Indique su movimiento\n",nombreJugador1);
+                            printf("Fila: ");
+                            scanf("%i\n",&coordenadaX);
+                            printf("Columna: ");
+                            scanf("%i\n",&coordenadaY);
+
+                            ///Chequeo si son coordenadas validas.
+                            if((coordenadaX!=0 && coordenadaX!=1 && coordenadaX!=2 )|| (coordenadaY!=0 && coordenadaY!=1 &&coordenadaY!=2)){
+                                printf("El movimiento no es valido\n");
+                            }
+                            else{
+                                buenModo=1;
+                            }
+                        }
+                        nuevo_movimiento(part,coordenadaX,coordenadaY);
+
+
+                    }
+                    ///Turno Jugador 2.
+                    if(part->turno_de == PART_JUGADOR_2){
+                        while(!buenModo){
+                            printf("%s Indique su movimiento\n",nombreJugador2);
+                            printf("Fila: ");
+                            scanf("%i\n",&coordenadaX);
+                            printf("Columna: ");
+                            scanf("%i\n",&coordenadaY);
+
+                            ///Chequeo si son coordenadas validas.
+                            if((coordenadaX!=0 && coordenadaX!=1 && coordenadaX!=2 )|| (coordenadaY!=0 && coordenadaY!=1 &&coordenadaY!=2)){
+                                printf("El movimiento no es valido\n");
+                            }
+                            else{
+                                buenModo=1;
+                            }
+                        }
+                        ///Realizo el movimiento y actualizo el estado de la partida.
+                        estadoPartida = nuevo_movimiento(part,coordenadaX,coordenadaY);
+                    }
+
 
             }
+            if(estadoPartida == PART_GANA_JUGADOR_1){
+                printf("Gano %s!!",nombreJugador1);
+            }
+            if(estadoPartida ==PART_GANA_JUGADOR_2){
+                printf("Gano %s!!",nombreJugador2);
+            }
+            if(estadoPartida == PART_EMPATE){
+                printf("La partida termino en empate");
+            }
+            ///Finalizo la partida.
+            finalizar_partida(&part);
     }
+
 
 
 
@@ -75,7 +136,7 @@ return 0;
 
 void printActualGame(tTablero tablero){
     printf("---┬---┬---\n");
-    if(tablero->grilla[0][0]==0)
+    if(tablero->grilla[1][2]==2)
        printf("|   |");
 
 }
