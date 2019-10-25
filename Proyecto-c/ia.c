@@ -36,7 +36,7 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
     if(resultadoEstado==IA_GANA_MAX||resultadoEstado==IA_EMPATA_MAX||resultadoEstado==IA_PIERDE_MAX)
         return valor_utilidad(estado,esJugadorMax);
 
-    if(esJugadorMax){//Como carajo esJugadorMax==boolean?
+    if(esJugadorMax){
         mejorValorSucesores = IA_INFINITO_NEG;
         sucesores = estados_sucesores(estado,esJugadorMax);
         posActualSucesores = l_primera(sucesores);
@@ -53,7 +53,7 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
                     alpha = mejorValorSucesores;
 
                 if(beta<=alpha){
-                    encontro = 1;//Necesito el encontro o solamenete necesito el return?
+                    encontro = 1;
                     return mejorValorSucesores;
                 }
 
