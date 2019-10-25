@@ -194,6 +194,9 @@ int main(){
 
 
     }
+    if(modo==3){
+        printf("Por favor, compre el dlc para adquirir esta funcion");
+    }
 
 
 
