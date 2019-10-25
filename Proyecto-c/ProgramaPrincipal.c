@@ -5,24 +5,21 @@
 
 //Declaracion de funciones.
 
-void printActualGame(tTablero tablero){
-    printf("---┬---┬---\n");
-    if(tablero->grilla[0][0]==0)
-       printf("|   |");
-
-}
+void printActualGame(tTablero tablero);
 
 
 int main(){
 
     //Declaracion de variables.
     //tTablero tablero; poque se crashea cuando hago tablero = partida ->tablero;
-    tPartida part;
+    tPartida part = (tPartida)malloc(sizeof(int));
+    tTablero tab = (tTablero)malloc(sizeof(int));
     char nombreJugador1[50];
     char nombreJugador2[50];
     int turno=0;
     int modo=0;
     int buenModo = 0;
+    int estadoPartdida=0;
 
 
     while(!buenModo){
@@ -44,15 +41,19 @@ int main(){
             printf("%s\n",nombreJugador1);
             printf("Indique '1' si empieza el jugador 1, '2' si empieza el jugador 2 o '3' para seleccion aleatoria.\n");
             scanf("%i",&turno);
-            printf("antes");
+
             if(turno==1)
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_1,nombreJugador1,nombreJugador2);
             if(turno==2)
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_2,nombreJugador1,nombreJugador2);
             if(turno==3)
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_RANDOM,nombreJugador1,nombreJugador2);
-            printf("despues");
-            printActualGame(part->tablero);
+            ///Muestro el tablero vacio.
+            tab = part->tablero;
+            printActualGame(tab);
+            while(!(estadoPartdida)){
+
+            }
     }
 
 
@@ -70,4 +71,11 @@ int main(){
 
 
 return 0;
+}
+
+void printActualGame(tTablero tablero){
+    printf("---┬---┬---\n");
+    if(tablero->grilla[0][0]==0)
+       printf("|   |");
+
 }
