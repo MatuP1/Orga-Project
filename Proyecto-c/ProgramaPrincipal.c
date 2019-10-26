@@ -45,7 +45,6 @@ int main(){
             scanf("%s",nombreJugador1);
             printf("Indique nombre de Jugador 2.\n");
             scanf("%s",nombreJugador2);
-            printf("%s\n",nombreJugador1);
             printf("Indique '1' si empieza el jugador 1, '2' si empieza el jugador 2 o '3' para seleccion aleatoria.\n");
             scanf("%i",&turno);
 
@@ -57,7 +56,6 @@ int main(){
                 nueva_partida(&part,PART_MODO_USUARIO_VS_USUARIO,PART_JUGADOR_RANDOM,nombreJugador1,nombreJugador2);
 
             ///Muestro el tablero vacio.
-            printf("%i",part->tablero->grilla[0][0]);
             tab = part->tablero;
             printActualGame(tab);
 
@@ -69,10 +67,10 @@ int main(){
                     if(part->turno_de == PART_JUGADOR_1){
                         while(!buenModo){
                             printf("%s Indique su movimiento\n",nombreJugador1);
-                            printf("Fila: ");
-                            scanf("%i\n",&coordenadaX);
-                            printf("Columna: ");
-                            scanf("%i\n",&coordenadaY);
+                            printf("Fila: \n");
+                            scanf("%i",&coordenadaX);
+                            printf("Columna: \n");
+                            scanf("%i",&coordenadaY);
 
                             ///Chequeo si son coordenadas validas.
                             if((coordenadaX!=0 && coordenadaX!=1 && coordenadaX!=2 )|| (coordenadaY!=0 && coordenadaY!=1 &&coordenadaY!=2)){
@@ -91,9 +89,9 @@ int main(){
                         while(!buenModo){
                             printf("%s Indique su movimiento\n",nombreJugador2);
                             printf("Fila: ");
-                            scanf("%i\n",&coordenadaX);
+                            scanf("%i",&coordenadaX);
                             printf("Columna: ");
-                            scanf("%i\n",&coordenadaY);
+                            scanf("%i",&coordenadaY);
 
                             ///Chequeo si son coordenadas validas.
                             if((coordenadaX!=0 && coordenadaX!=1 && coordenadaX!=2 )|| (coordenadaY!=0 && coordenadaY!=1 &&coordenadaY!=2)){
@@ -148,8 +146,8 @@ int main(){
             }
 
             ///Muestro el tablero vacio.
-            //tab = part->tablero;
-          //  printActualGame(tab);
+            tab=part->tablero;
+            printActualGame(tab);
             ///Empieza la partida y no termina hasta que gana el jugador 1 el 2 o empatan.
             while(estadoPartida != PART_GANA_JUGADOR_1 && estadoPartida != PART_GANA_JUGADOR_2 && estadoPartida !=PART_EMPATE){
                     buenModo=0;
@@ -158,11 +156,11 @@ int main(){
                     ///Turno Jugador 1.
                     if(part->turno_de == PART_JUGADOR_1){
                         while(!buenModo){
-                            printf("%s Indique su movimiento\n",nombreJugador1);
-                            printf("Fila: ");
-                            scanf("%i\n",&coordenadaX);
-                            printf("Columna: ");
-                            scanf("%i\n",&coordenadaY);
+                            printf("Indique su movimiento\n");
+                            printf("Fila: \n");
+                            scanf("%i",&coordenadaX);
+                            printf("Columna: \n");
+                            scanf("%i",&coordenadaY);
 
                             ///Chequeo si son coordenadas validas.
                             if((coordenadaX!=0 && coordenadaX!=1 && coordenadaX!=2 )|| (coordenadaY!=0 && coordenadaY!=1 &&coordenadaY!=2)){
@@ -206,26 +204,50 @@ int main(){
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 return 0;
 }
 
-void printActualGame(tTablero tablero){
-    printf("---┬---┬---\n");
-    if(tablero->grilla[1][2]==0)
+void printPositionLateral(tTablero tablero,int fila,int columna){
+    if(tablero->grilla[fila][columna]==0)
        printf("|   |");
+    if(tablero->grilla[fila][columna]==1)
+        printf("| X |");
+    if(tablero->grilla[fila][columna]==2)
+        printf("| O |");
+}
+
+void PrintPositionMid(tTablero tablero,int fila,int columna){
+    if(tablero->grilla[fila][columna]==0)
+       printf("   ");
+    if(tablero->grilla[fila][columna]==1)
+        printf(" X ");
+    if(tablero->grilla[fila][columna]==2)
+        printf(" O ");
+}
+
+void printActualGame(tTablero tablero){
+    ///Imprimo separador.
+    printf("|---|---|---|\n");
+    ///imprimo primera fila.
+    printPositionLateral(tablero,0,0);
+    PrintPositionMid(tablero,0,1);
+    printPositionLateral(tablero,0,2);
+    printf("\n");
+    ///Imprimo separador.
+    printf("|---|---|---|\n");
+    ///Imprimo segunda linea.
+    printPositionLateral(tablero,1,0);
+    PrintPositionMid(tablero,1,1);
+    printPositionLateral(tablero,1,2);
+    printf("\n");
+    ///Imprimo separador.
+    printf("|---|---|---|\n");
+    ///Imprimo tercera linea.
+    printPositionLateral(tablero,2,0);
+    PrintPositionMid(tablero,2,1);
+    printPositionLateral(tablero,2,2);
+    printf("\n");
+    ///Imprimo separador.
+    printf("|---|---|---|\n");
 
 }
