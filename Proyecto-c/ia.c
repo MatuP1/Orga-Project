@@ -362,19 +362,27 @@ estados_sucesores(estado, ficha) retornaría dos listas L1 y L2 tal que:
 - El orden de los estado en L1 posiblemente sea diferente al orden de los estados en L2.
 **/
 static tLista estados_sucesores(tEstado e, int ficha_jugador){
+    ///Defino una estructura que guarda dos enteros.
     struct par{
         int x;
         int y;
     };
+    ///Defino un puntero que apunta a la estructura anteriormente definida.
     typedef struct par * tPar;
+    ///Creo una lista como variable auxiliar llamada sucesores,
     tLista sucesores;
     crear_lista(&sucesores);
+    ///Guardo como variable auxiliar un arreglo de estructura anteriormente definida.
     tPar coorVacias[9];
+    ///Guardo como una variable auxiliar un contador que cuenta las posiciones vacias de un tablero.
     int lugaresVacios=0;
     int i,j;
+    ///Recorro la matriz encontrada en la estuctura estado pasada por parametro.
     for(i=0;i<3;i++){
         for(j=0;j<3;j++){
+            ///Si la posicion que se esta recorriendo esta vacia.
             if(e->grilla[i][j]==0){
+                ///Guardo espacio en memoria y modifico las variables de la estructura par con las posiciones actuales que estoy recorriendo.
                 coorVacias[lugaresVacios]=(tPar) malloc (sizeof(struct par));
                 coorVacias[lugaresVacios]->x=i;
                 coorVacias[lugaresVacios]->y=j;
@@ -383,17 +391,26 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
         }
     }
     i=0;
+    ///Guardo una variable auxiliar que hace referencia a un puntero de una estructura estado.
     tEstado aux;
+    ///Mientras el contador sea menor a la cantidad de espacios vacios.
     while(i<lugaresVacios){
+            ///Declaro dos variables auxiliares.
             int xAux,yAux;
+            ///A las variables auxilares les asigno los valores encontrados en el arreglo previamente mencionado.
             xAux=coorVacias[i]->x;
             yAux=coorVacias[i]->y;
+            ///Guardo espacio en memoria para una variable auxiliar.
             aux=(tEstado) malloc (sizeof(struct estado));
+            ///Clono el estado pasado por parametro en la variable auxiliar que hace referencia a un puntero de una estructura estado.
             aux=clonar_estado(e);
+            ///A la posicion de la grilla del estado auxiliar le asigno la variable ficha_jugador que es pasada por parametro.
             aux->grilla[xAux][yAux]=ficha_jugador;
+            ///A la utilidad de la variable auxiliar que hace referencia a un puntero de una estructura estado le asigno el resultado de la funcion valor_utilidad con parametros variable auxiliar que hace referencia a un puntero de una estructura estado y ficha_jugador que es pasada por parametro.
             aux->utilidad=valor_utilidad(aux,ficha_jugador);
+            ///Declaro una variable y le asigno un numero aleatorio.
             int r=rand();
-            //insercion random
+            ///Inserto en una posicion aleatoria a los hijos de la lista sucesores.
             if((r%lugaresVacios)%3==0)
                 l_insertar(sucesores,l_primera(sucesores),aux);
             else{
@@ -409,6 +426,7 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
             }
             i++;
     }
+    ///Retorono la lista de sucesores.
     return sucesores;
 }
 
