@@ -140,21 +140,32 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 >>>>>  A IMPLEMENTAR   <<<<<
 */
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
+    ///Ejecuto la funcion ejecutar_min_max con el puntero a la estructura busqueda adversaria.
     ejecutar_min_max(b);
+    ///Creo una variable auxiliar a un puntero a la estructura estado.
     tEstado mayorUtilidad;
+    ///Guardo en una variable auxiliar la lista de hijos de la raiz del arbol encontrado en la estructura busqueda adversaria.
     tLista movimientos=a_hijos(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
+    ///Guardo en una variable auxiliar la primera posicion de la lista anteriormente guardada.
     tPosicion inicio=l_primera(movimientos);
-   // tNodo movimientoActual=(tNodo)inicio->elemento;
+    // tNodo movimientoActual=(tNodo)inicio->elemento;
+    ///Guardo en una variable auxiliar el elemento del elemento anteriormente mencionado.
     tEstado estadoActual=(tEstado)inicio->elemento;
+    ///Modifico el valor de la variable auxiliar a un puntero a la estructura estado con el elemento del elemento anteriormente mencionado.
     mayorUtilidad=estadoActual;
+    ///Recorro la lista hasta que no tenga mas posiciones.
     for(int i=0;i<l_longitud(movimientos-1);i++){ //me caigo de la lista??
+        ///Si la utilidad de la estructura estado de mayorUtilidad es menor a la utilidad de la estructura estado del estado actual modifico mayorUtilidad con el puntero de estado actual.
         if(mayorUtilidad->utilidad<estadoActual->utilidad)
             mayorUtilidad=estadoActual;
+        ///Avanzo en la lista a la siguiente posicion y actualizo los valores de las variables que guardaban datos de la anterior posicion.
         inicio=l_siguiente(movimientos,inicio);
         //movimientoActual=(tNodo)inicio->elemento;
         estadoActual=(tEstado)inicio->elemento;
     }
+    ///Guardo en una variable auxiliar el elemento de la raiz de la estructura arbol de busqueda pasada por parametro.
     tEstado raiz=(tEstado)a_recuperar(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
+    ///Utilizo la funcion diferencia de estados con la variable auxiliar anteriormente guardada, la ultima mayorUtilidad conseguida en la lista y los punteros a enteros pasados por parametro.
     diferencia_estados(raiz,mayorUtilidad,x,y);
 }
 
@@ -162,7 +173,9 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
 >>>>>  A IMPLEMENTAR   <<<<<
 **/
 void destruir_busqueda_adversaria(tBusquedaAdversaria * b){
+    ///Destruyo el arbol encontrado dentro de la estructura busqueda adversaria pasada por paramtero.
     a_destruir(&(*b)->arbol_busqueda,fElimBusq);
+    ///Libero el espacio en memoria ocupado por la estructura busqueda adversaria pasada por parametro.
     free(*b);
     *b=NULL;
     free(b);
@@ -178,11 +191,14 @@ Ordena la ejecución del algoritmo Min-Max para la generación del árbol de búsque
 estado inicial el estado de la partida almacenado en el árbol almacenado en B.
 **/
 static void ejecutar_min_max(tBusquedaAdversaria b){
+    ///Guardo en una variable auxiliar el arbol encontrado en la estructura busqueda adversaria pasada por paramtero.
     tArbol a = b->arbol_busqueda;
+    ///Guardo en una variable auxiliar la raiz de la variable arbol anteriormente guardada.
     tNodo r = a_raiz(a);
+    ///Guardo en variables auxilares los enteros que identifican a jugadores encontrados en la estructura busqueda adversaria pasada por parametro.
     int jugador_max = b->jugador_max;
     int jugador_min = b->jugador_min;
-
+    ///Utilizo la funcion crear_sucesores_min_max con los parametro del arbol anteriormente guardado, su raiz, un entero numeros infinitos y las variables que identifican jugadores anteriormente guardadas.
     crear_sucesores_min_max(a, r, 1, IA_INFINITO_NEG, IA_INFINITO_POS, jugador_max, jugador_min);
 }
 
@@ -196,7 +212,9 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 - JUGADOR_MAX y JUGADOR_MIN indican las fichas con las que juegan los respectivos jugadores.
 **/
 static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
+    ///Guardo en una variable auxiliar el elemento del nodo encontrado en el arbol y el nodo pasados por paramentro.
     tEstado prim= (tEstado)a_recuperar(a,n);
+    ///Ejecuto la funcion minimax pasando por parametro la el elemento del nodo anteriormente guardado,el entero que identifica al jugador y dos variables que identifican el valor de utilidad.
     minimax(prim,es_max,alpha,beta);
     //tenes que usar es max
 
@@ -243,6 +261,7 @@ int gano(tEstado e, int ficha){
     else{
         ficha2=PART_JUGADOR_1;
     }
+        ///Chequeo las filas.
         while(gano1!=3 && gano2!=3 && i<3){
             for(int j=0; j<3; j++){
                 if(e->grilla[i][j]==ficha1)
@@ -262,6 +281,7 @@ int gano(tEstado e, int ficha){
             i++;
         }
         int j=0;
+        ///Chequeo las columnas.
         while(gano1!=3 && gano2!=3 && j<3){
             for(i=0; i<3; i++){
                 if(e->grilla[i][j]==ficha1)
@@ -327,6 +347,7 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_NO_TERMINO en caso contrario.
 **/
 static int valor_utilidad(tEstado e, int jugador_max){
+    ///Retorno el entero conseguido al ejecutar la funcion gano con el estado pasado por parametro y la variable que representa al jugador tambien pasada por parametro.
     return gano(e,jugador_max);
 }
 
