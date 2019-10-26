@@ -125,12 +125,12 @@
 
 1570655160 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\testarbol.h
 
-1571663150 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\partida.c
+1572045657 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\partida.c
 	"partida.h"
 	"stdlib.h"
 	"stdio.h"
 
-1572043514 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\programaprincipal.c
+1572045293 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\programaprincipal.c
 	<stdio.h>
 	<stdlib.h>
 	"partida.h"
