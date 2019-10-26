@@ -144,15 +144,15 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
     tEstado mayorUtilidad;
     tLista movimientos=a_hijos(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
     tPosicion inicio=l_primera(movimientos);
-    tNodo movimientoActual=(tNodo)inicio->elemento;
-    tEstado estadoActual=(tEstado)movimientoActual->elemento;
+   // tNodo movimientoActual=(tNodo)inicio->elemento;
+    tEstado estadoActual=(tEstado)inicio->elemento;
     mayorUtilidad=estadoActual;
     for(int i=0;i<l_longitud(movimientos-1);i++){ //me caigo de la lista??
         if(mayorUtilidad->utilidad<estadoActual->utilidad)
             mayorUtilidad=estadoActual;
         inicio=l_siguiente(movimientos,inicio);
-        movimientoActual=(tNodo)inicio->elemento;
-        estadoActual=(tEstado)movimientoActual->elemento;
+        //movimientoActual=(tNodo)inicio->elemento;
+        estadoActual=(tEstado)inicio->elemento;
     }
     tEstado raiz=(tEstado)a_recuperar(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
     diferencia_estados(raiz,mayorUtilidad,x,y);
@@ -243,7 +243,7 @@ int gano(tEstado e, int ficha){
     else{
         ficha2=PART_JUGADOR_1;
     }
-        while(gano1!=3 || gano2!=3 || i<3){
+        while(gano1!=3 && gano2!=3 && i<3){
             for(int j=0; j<3; j++){
                 if(e->grilla[i][j]==ficha1)
                     gano1++;
@@ -262,7 +262,7 @@ int gano(tEstado e, int ficha){
             i++;
         }
         int j=0;
-        while(gano1!=3 || gano2!=3 || j<3){
+        while(gano1!=3 && gano2!=3 && j<3){
             for(i=0; i<3; i++){
                 if(e->grilla[i][j]==ficha1)
                     gano1++;
@@ -281,7 +281,7 @@ int gano(tEstado e, int ficha){
         }
         //diagonal hardcodeada x2
         i=0; j=0;
-        while(j<3 && i<3){
+        while(j<2 && i<2){
             if(e->grilla[i][j]==ficha1)
                 gano1++;
             if(e->grilla[i][j]==ficha2)
@@ -298,10 +298,11 @@ int gano(tEstado e, int ficha){
 
         gano1=0;
         gano2=0;
-
+        i=-1;
+        j=3;
         while(j>0 && i<3){
             j--;
-            i--;
+            i++;
             if(e->grilla[i][j]==ficha1)
                 gano1++;
             if(e->grilla[i][j]==ficha2)
@@ -383,7 +384,7 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
                     l_insertar(sucesores,p,aux);
                 }
                 else
-                    l_insertar(sucesores,NULL,aux);
+                    l_insertar(sucesores,l_ultima(sucesores),aux);
             }
             i++;
     }

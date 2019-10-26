@@ -43,17 +43,17 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
     }
 }
 
-int ganoP(tPartida p, int ficha){
-    tTablero t=p->tablero;
+int ganoP(tTablero t, int ficha){
     int gano=0;
     int i=0;
-    while(gano!=3 || i<3){
+    while(gano!=3 && i<3){
         for(int j=0; j<3; j++){
             if(t->grilla[i][j]==ficha)
                 gano++;
             }
-        if(gano<3)
+        if(gano<3){
             gano=0;
+        }
         i++;
     }
     if(gano>=3)
@@ -62,7 +62,7 @@ int ganoP(tPartida p, int ficha){
         gano=0;
 
     int j=0;
-    while(gano!=3 || j<3){
+    while(gano!=3 && j<3){
         for(int i=0; i<3; i++){
             if(t->grilla[i][j]==ficha)
                 gano++;
@@ -134,14 +134,14 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
     else{
         if(p->turno_de==PART_JUGADOR_1){
             t->grilla[mov_x][mov_y]=1;
-            if(ganoP(p,1)){
+            if(ganoP(t,1)){
                 return PART_GANA_JUGADOR_1;
             }
                 p->turno_de=PART_JUGADOR_2;
         }
         else{
             t->grilla[mov_x][mov_y]=2;
-            if(ganoP(p,2)){
+            if(ganoP(t,2)){
                 return PART_GANA_JUGADOR_2;
             }
                 p->turno_de=PART_JUGADOR_1;
