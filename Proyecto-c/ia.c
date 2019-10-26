@@ -437,16 +437,20 @@ Para esto copia en el estado a retornar los valores actuales de la grilla del es
 de utilidad.
 **/
 static tEstado clonar_estado(tEstado e){
+    ///Guardo espacio en memoria a una variable auxiliar definida en la misma linea.
     tEstado ret=(tEstado) malloc (sizeof(struct estado));
+    ///Si la variable anteriormente definida es nula es un error.
     if(ret==NULL)
         exit(IA_ERROR_MEMORIA);
-    //copio la grilla
+    ///Copio la grilla.
     for(int i=0;i<3;i++){
         for(int j=0;j<3;j++){
             ret->grilla[i][j]=e->grilla[i][j];
         }
     }
+    ///A la utilidad de la variable anteriormente definida le asigno la utilidad de la estructura estado pasada por parametro.
     ret->utilidad=e->utilidad;
+    ///Retorno la variable anteriormente definida.
     return ret;
 }
 
@@ -456,9 +460,12 @@ Se asume que entre ambos existe sólo una posición en el que la ficha del estado 
 La posición en la que los estados difiere, es retornada en los parámetros *X e *Y.
 **/
 static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y){
+    ///Declaro 3 variables enteras auxiliares.
     int i,j, hallado = 0;
+    ///Recorro la grillas de las matrices encontradas en las estructuras estado pasadas por parametro hasta que se terminen o hasta que halle la posicion diferente entre dos estructuras estado.
     for(i=0; i<3 && !hallado; i++){
         for(j=0; j<3 && !hallado; j++){
+            ///Si encuentro la posicion que difiere actualizo los puntero a enteros pasados por parametro e indico que halle la diferencia.
             if (anterior->grilla[i][j] != nuevo->grilla[i][j]){
                 *x = i;
                 *y = j;
