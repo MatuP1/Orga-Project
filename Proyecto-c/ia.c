@@ -19,7 +19,7 @@ static tEstado clonar_estado(tEstado e);
 int gano(tEstado e, int ficha);
 
 
-
+//dijo viri que lo hagamos void
 
 int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
     //Declaracion de variables.
@@ -33,8 +33,10 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
 
     ///Si es un estado final devuelve la utilidad.
     int val=valor_utilidad(estado,esJugadorMax);
-    if(val==IA_GANA_MAX||val==IA_EMPATA_MAX||val==IA_PIERDE_MAX)
+    if(val==IA_GANA_MAX||val==IA_EMPATA_MAX||val==IA_PIERDE_MAX){
+        estado->utilidad = val;
         return val;
+    }
     ///Si esJugadorMax !=0 significa que es un estado max.
     if(esJugadorMax){
         ///Inicializo las variables.
@@ -57,6 +59,7 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
                 ///Si beta es menor  o igual a alpha, podo.
                 if(beta<=alpha){
                     encontro = 1;
+                    estado->utilidad = mejorValorSucesores;
                     return mejorValorSucesores;
                 }
                 ///Actualizo la posicion en la lista de hijos.
@@ -86,6 +89,7 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
                 ///Si beta es menor  o igual a alpha, podo.
                 if(beta<=alpha){
                     encontro = 1;
+                    estado->utilidad = mejorValorSucesores;
                     return mejorValorSucesores;
                 }
                 ///Actualizo la posicion en la lista de hijos.
@@ -135,8 +139,6 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 >>>>>  A IMPLEMENTAR   <<<<<
 */
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
-    ///Ejecuto la funcion ejecutar_min_max con el puntero a la estructura busqueda adversaria.
-    ejecutar_min_max(b);
     ///Creo una variable auxiliar a un puntero a la estructura estado.
     tEstado mayorUtilidad;
     ///Guardo en una variable auxiliar la lista de hijos de la raiz del arbol encontrado en la estructura busqueda adversaria.
@@ -212,7 +214,7 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     tEstado prim= (tEstado)a_recuperar(a,n);
     ///Ejecuto la funcion minimax pasando por parametro el elemento del nodo anteriormente guardado,el entero que identifica al jugador y dos variables que identifican el valor de utilidad.
     minimax(prim,es_max,alpha,beta);
-
+    //nunca actualizamos la utilidad??
    /** if(es_max){
         es_max--;
         tEstado tab=(tEstado)n->elemento;
