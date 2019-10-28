@@ -38,8 +38,7 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
     ///Si esJugadorMax !=0 significa que es un estado max.
     if(esJugadorMax){
         ///Inicializo las variables.
-        //mejorValorSucesores = IA_INFINITO_NEG;
-        mejorValorSucesores = alpha;
+        mejorValorSucesores = IA_INFINITO_NEG;
         sucesores = estados_sucesores(estado,esJugadorMax);
         posActualSucesores = l_primera(sucesores);
         finSucesores = l_fin(sucesores);
@@ -66,11 +65,9 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
         }
     }
     ///Si esJugadorMax =0 significa que es un estado min.
-    //esto lo tenes que hacer en crear sucesores
     else{
         ///Inicializo las variables.
-        //mejorValorSucesores = IA_INFINITO_POS;
-        mejorValorSucesores = beta;
+        mejorValorSucesores = IA_INFINITO_POS;
         sucesores = estados_sucesores(estado,esJugadorMax);
         posActualSucesores = l_primera(sucesores);
         finSucesores = l_fin(sucesores);
@@ -80,7 +77,6 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
                 elemento = (tEstado) l_recuperar(sucesores,posActualSucesores);
                 ///Accedo a una instancia recusiva con el estado hijo correspondiente a  la pos actual de la lista de hijos cambiando que ahora es un estado max.
                 valorSucesor = minimax(elemento,1,alpha,beta);//Este le paso para que en el sig vaya al if y no al else
-                //tenes que usar crear sucesores
                 ///Si la utilidad del hijo es menor a la anteriormente calculada la reemplazo por el nuevo valor.
                 if(valorSucesor<mejorValorSucesores)
                     mejorValorSucesores = valorSucesor;
@@ -97,8 +93,8 @@ int minimax(tEstado estado,int esJugadorMax,int alpha,int beta){
 
         }
     }
-    return 0;
 
+    return 0;
 }
 
 void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
