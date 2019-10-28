@@ -375,14 +375,20 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
     ///Recorro la matriz encontrada en la estuctura estado pasada por parametro.
     for(i=0;i<3;i++){
         for(j=0;j<3;j++){
+            ///Guardo espacio en memoria y modifico las variables de la estructura par con las posiciones actuales que estoy recorriendo.
+            coorVacias[lugaresVacios]=(tPar) malloc (sizeof(struct par));
             ///Si la posicion que se esta recorriendo esta vacia.
             if(e->grilla[i][j]==0){
-                ///Guardo espacio en memoria y modifico las variables de la estructura par con las posiciones actuales que estoy recorriendo.
-                coorVacias[lugaresVacios]=(tPar) malloc (sizeof(struct par));
                 coorVacias[lugaresVacios]->x=i;
                 coorVacias[lugaresVacios]->y=j;
                 lugaresVacios++;
             }
+            else{
+                coorVacias[lugaresVacios]->x=0;
+                coorVacias[lugaresVacios]->y=0;
+                lugaresVacios++;
+            }
+
         }
     }
     i=0;
