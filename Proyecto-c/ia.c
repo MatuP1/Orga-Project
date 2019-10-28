@@ -141,28 +141,36 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
     ///Creo una variable auxiliar a un puntero a la estructura estado.
     tEstado mayorUtilidad;
+
     ///Guardo en una variable auxiliar la lista de hijos de la raiz del arbol encontrado en la estructura busqueda adversaria.
     tLista movimientos=a_hijos(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
+
     ///Guardo en una variable auxiliar la primera posicion de la lista anteriormente guardada.
     tPosicion inicio=l_primera(movimientos);
-    // tNodo movimientoActual=(tNodo)inicio->elemento;
+
     ///Guardo en una variable auxiliar el elemento del elemento anteriormente mencionado.
     tNodo nodoActual=(tNodo)l_recuperar(movimientos,inicio);
+
     tEstado estadoActual=a_recuperar(b->arbol_busqueda,nodoActual);
+
     ///Modifico el valor de la variable auxiliar a un puntero a la estructura estado con el elemento del elemento anteriormente mencionado.
     mayorUtilidad=(tEstado)estadoActual;
+
     ///Recorro la lista hasta que no tenga mas posiciones.
     for(int i=0;i<l_longitud(movimientos)-1;i++){ //me caigo de la lista??
+
         ///Si la utilidad de la estructura estado de mayorUtilidad es menor a la utilidad de la estructura estado del estado actual modifico mayorUtilidad con el puntero de estado actual.
         if(mayorUtilidad->utilidad<estadoActual->utilidad)
             mayorUtilidad=estadoActual;
+
         ///Avanzo en la lista a la siguiente posicion y actualizo los valores de las variables que guardaban datos de la anterior posicion.
         inicio=l_siguiente(movimientos,inicio);
-        //movimientoActual=(tNodo)inicio->elemento;
+
         estadoActual=(tEstado)inicio->elemento;
     }
     ///Guardo en una variable auxiliar el elemento de la raiz de la estructura arbol de busqueda pasada por parametro.
     tEstado raiz=(tEstado)a_recuperar(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
+
     ///Utilizo la funcion diferencia de estados con la variable auxiliar anteriormente guardada, la ultima mayorUtilidad conseguida en la lista y los punteros a enteros pasados por parametro.
     diferencia_estados(raiz,mayorUtilidad,x,y);
 }
