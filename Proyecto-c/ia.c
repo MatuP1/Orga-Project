@@ -147,8 +147,8 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
     tPosicion inicio=l_primera(movimientos);
     // tNodo movimientoActual=(tNodo)inicio->elemento;
     ///Guardo en una variable auxiliar el elemento del elemento anteriormente mencionado.
-    tNodo nodoActual=(tNodo)inicio->elemento;
-    tEstado estadoActual=nodoActual->elemento;
+    tNodo nodoActual=(tNodo)l_recuperar(movimientos,inicio);
+    tEstado estadoActual=a_recuperar(b->arbol_busqueda,nodoActual);
     ///Modifico el valor de la variable auxiliar a un puntero a la estructura estado con el elemento del elemento anteriormente mencionado.
     mayorUtilidad=(tEstado)estadoActual;
     ///Recorro la lista hasta que no tenga mas posiciones.
