@@ -116,9 +116,9 @@ int main(){
                         if(part->turno_de == PART_JUGADOR_1){
                             while(!buenModo){
                                 printf("Indique su movimiento\n");
-                                printf("Fila: \n");
+                                printf("Fila: ");
                                 scanf("%i",&coordenadaX);
-                                printf("Columna: \n");
+                                printf("Columna: ");
                                 scanf("%i",&coordenadaY);
 
                                 ///Chequeo si son coordenadas validas.
@@ -131,7 +131,7 @@ int main(){
                             }
                             ///Realizo el movimiento.
                             estadoPartida = nuevo_movimiento(part,coordenadaX-1,coordenadaY-1);
-                             printActualGame(tab);
+                            printActualGame(tab);
 
                         }
                         ///Turno Maquina.
@@ -163,20 +163,20 @@ int main(){
 }
 
 void printPositionLateral(tTablero tablero,int fila,int columna){
-    if(tablero->grilla[fila][columna]==0)
+    if(tablero->grilla[fila][columna]==PART_SIN_MOVIMIENTO)
        printf("|   |");
-    if(tablero->grilla[fila][columna]==1)
+    if(tablero->grilla[fila][columna]==PART_JUGADOR_1)
         printf("| X |");
-    if(tablero->grilla[fila][columna]==2)
+    if(tablero->grilla[fila][columna]==PART_JUGADOR_2)
         printf("| O |");
 }
 
 void PrintPositionMid(tTablero tablero,int fila,int columna){
-    if(tablero->grilla[fila][columna]==0)
+    if(tablero->grilla[fila][columna]==PART_SIN_MOVIMIENTO)
        printf("   ");
-    if(tablero->grilla[fila][columna]==1)
+    if(tablero->grilla[fila][columna]==PART_JUGADOR_1)
         printf(" X ");
-    if(tablero->grilla[fila][columna]==2)
+    if(tablero->grilla[fila][columna]==PART_JUGADOR_2)
         printf(" O ");
 }
 

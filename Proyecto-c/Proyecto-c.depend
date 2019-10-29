@@ -69,13 +69,14 @@
 
 1569678181 d:\universidad\orga\proyecto\orga-project\proyecto-c\partida.h
 
-1572360011 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\ia.c
+1572371269 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\ia.c
 	<stdlib.h>
 	<stdio.h>
 	"lista.h"
 	"arbol.h"
 	"ia.h"
 	"partida.h"
+	<time.h>
 
 1569882015 c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\arbol.h
 	"lista.h"
@@ -132,7 +133,7 @@
 	"stdio.h"
 	"time.h"
 
-1572117815 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\programaprincipal.c
+1572365773 source:c:\users\matia\onedrive\documents\github\orga-project\proyecto-c\programaprincipal.c
 	<stdio.h>
 	<stdlib.h>
 	"partida.h"
