@@ -141,6 +141,7 @@ int main(){
                                 ///Le pido el proximo movimiento a la maquina y realizo el movimiento.
                                 proximo_movimiento(maqBusqueda,&coordenadaX,&coordenadaY);
                                 estadoPartida=nuevo_movimiento(part,coordenadaX,coordenadaY);
+                                destruir_busqueda_adversaria(&maqBusqueda);
                                 printActualGame(tab);
                         }
                 }

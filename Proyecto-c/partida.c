@@ -93,9 +93,11 @@ int ganoP(tTablero t, int ficha){
         return 1; //gano
     else
         gano=0;
+    i=-1;
+    j=3;
     while(j>0 && i<3){
         j--;
-        i--;
+        i++;
         if(t->grilla[i][j]==ficha)
             gano++;
         else{
@@ -130,8 +132,8 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
         return PART_MOVIMIENTO_ERROR;
     }
 
-    if(t->grilla[mov_x][mov_y]!=PART_SIN_MOVIMIENTO)
-        return (PART_MOVIMIENTO_ERROR);
+   // if(t->grilla[mov_x][mov_y]!=PART_SIN_MOVIMIENTO)
+     //   return (PART_MOVIMIENTO_ERROR);
     else{
         if(p->turno_de==PART_JUGADOR_1){
             t->grilla[mov_x][mov_y]=PART_JUGADOR_1;
@@ -147,6 +149,10 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
             }
                 p->turno_de=PART_JUGADOR_1;
         }
+        lleno++;
+        if(lleno>=9)
+            return PART_EMPATE;
+
     }
     return PART_MOVIMIENTO_OK;
 }

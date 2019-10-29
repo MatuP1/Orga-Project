@@ -158,7 +158,7 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
     mayorUtilidad=(tEstado)estadoActual;
 
     ///Recorro la lista hasta que no tenga mas posiciones.
-    for(int i=0;i<l_longitud(movimientos)-1;i++){ //me caigo de la lista??
+    for(int i=0;i<l_longitud(movimientos)-1;i++){
 
         ///Si la utilidad de la estructura estado de mayorUtilidad es menor a la utilidad de la estructura estado del estado actual modifico mayorUtilidad con el puntero de estado actual.
         if(mayorUtilidad->utilidad<estadoActual->utilidad)
@@ -166,8 +166,8 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
 
         ///Avanzo en la lista a la siguiente posicion y actualizo los valores de las variables que guardaban datos de la anterior posicion.
         inicio=l_siguiente(movimientos,inicio);
-
-        estadoActual=(tEstado)inicio->elemento;
+        nodoActual=l_recuperar(movimientos,inicio);
+        estadoActual=(tEstado)a_recuperar(b->arbol_busqueda,nodoActual);
     }
     ///Guardo en una variable auxiliar el elemento de la raiz de la estructura arbol de busqueda pasada por parametro.
     tEstado raiz=(tEstado)a_recuperar(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
@@ -240,7 +240,7 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
         if(es_max){
             ///Inicializo las variables.
            // mejorValorSucesores = IA_INFINITO_NEG;
-            sucesores = estados_sucesores(estado,jugador_min);
+            sucesores = estados_sucesores(estado,jugador_max);
             posActualSucesores = l_primera(sucesores);
             finSucesores = l_fin(sucesores);
             ///Exploro la lista de estados hijos del estado actual.
@@ -272,7 +272,7 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
         else{
             ///Inicializo las variables.
            // mejorValorSucesores = IA_INFINITO_POS;
-            sucesores = estados_sucesores(estado,jugador_max);
+            sucesores = estados_sucesores(estado,jugador_min);
             posActualSucesores = l_primera(sucesores);
             finSucesores = l_fin(sucesores);
             ///Exploro la lista de estados hijos del estado actual.
@@ -470,7 +470,7 @@ static int valor_utilidad(tEstado e, int jugador_max){
         }
         //diagonal hardcodeada x2
         i=0; j=0;
-        while(j<2 && i<2){
+        while(j<3 && i<3){
             if(e->grilla[i][j]==ficha1)
                 gano1++;
             if(e->grilla[i][j]==ficha2)
