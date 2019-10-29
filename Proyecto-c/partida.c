@@ -128,12 +128,12 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
         exit(PART_MOVIMIENTO_ERROR);
 
     if(lleno>=9){
-       // p->estado=PART_SIN_MOVIMIENTO;
+        p->estado=PART_SIN_MOVIMIENTO;
         return PART_MOVIMIENTO_ERROR;
     }
 
-   // if(t->grilla[mov_x][mov_y]!=PART_SIN_MOVIMIENTO)
-     //   return (PART_MOVIMIENTO_ERROR);
+    if(t->grilla[mov_x][mov_y]!=PART_SIN_MOVIMIENTO)
+        return (PART_MOVIMIENTO_ERROR);
     else{
         if(p->turno_de==PART_JUGADOR_1){
             t->grilla[mov_x][mov_y]=PART_JUGADOR_1;
@@ -150,8 +150,10 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
                 p->turno_de=PART_JUGADOR_1;
         }
         lleno++;
-        if(lleno>=9)
+        if(lleno>=9){
+            p->estado=PART_SIN_MOVIMIENTO;
             return PART_EMPATE;
+        }
 
     }
     return PART_MOVIMIENTO_OK;

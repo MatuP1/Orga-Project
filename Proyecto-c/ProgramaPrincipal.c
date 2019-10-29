@@ -72,6 +72,7 @@ int main(){
 
             ///Muestro el tablero vacio.
             tab = part->tablero;
+
             printActualGame(tab);
 
             if(modo==1){
@@ -110,6 +111,7 @@ int main(){
             if(modo==2){
                 ///Empieza la partida y no termina hasta que gana el jugador 1 el 2 o empatan.
                 while(estadoPartida != PART_GANA_JUGADOR_1 && estadoPartida != PART_GANA_JUGADOR_2 && estadoPartida !=PART_EMPATE){
+
                         buenModo=0;
 
                          ///Turno Jugador 1.
@@ -131,11 +133,14 @@ int main(){
                             }
                             ///Realizo el movimiento.
                             estadoPartida = nuevo_movimiento(part,coordenadaX-1,coordenadaY-1);
+                            if(estadoPartida==PART_MOVIMIENTO_ERROR)
+                                printf("Intenta en un lugar que no este ocupado\n");
                             printActualGame(tab);
 
                         }
                         ///Turno Maquina.
-                        if(part->turno_de == PART_JUGADOR_2){
+
+                        if(part->turno_de == PART_JUGADOR_2 && estadoPartida==PART_MOVIMIENTO_OK){
                                 ///Creo el arbol de busqueda adversaria.
                                 crear_busqueda_adversaria(&maqBusqueda,part);
                                 ///Le pido el proximo movimiento a la maquina y realizo el movimiento.

@@ -54,11 +54,10 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e)
 
     if(nh==NULL){  //si el nodo hermano es nulo inserto al final
         l_insertar(hijosPadre,hermanoFin,ret);
-        printf("inserte con NULL\n");
     }
 
     else{
-        if((nh->padre)!=np)           //si nh no es un hijo del padre error
+        if((nh->padre)!=np)  //si nh no es un hijo del padre error
             exit(ARB_POSICION_INVALIDA);
 
         else{

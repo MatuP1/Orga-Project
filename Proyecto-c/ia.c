@@ -136,49 +136,32 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     ejecutar_min_max((*b));
 }
 
-/**
->>>>>  A IMPLEMENTAR   <<<<<
-*/
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
-    ///Creo una variable auxiliar a un puntero a la estructura estado.
-    tEstado mayorUtilidad;
+        tNodo raiz = a_raiz(b->arbol_busqueda);
+        tEstado estado_actual = (tEstado) a_recuperar(b->arbol_busqueda, raiz);
+        tLista sucesores = a_hijos(b->arbol_busqueda, raiz);
+        int mejor_valor = IA_INFINITO_NEG;
+        int nuevo_valor;
+        tNodo mejor_sucesor = NULL;
+        tPosicion fin = l_fin(sucesores);
+        tPosicion cursor = l_primera(sucesores);
+        tNodo hijoActual =l_recuperar(sucesores,l_primera(sucesores));
+        tEstado estadoHijo= (tEstado) a_recuperar(b->arbol_busqueda,hijoActual);
+        nuevo_valor=estadoHijo->utilidad;
+        while(cursor != fin){
+            hijoActual=l_recuperar(sucesores,cursor);
+            estadoHijo=a_recuperar(b->arbol_busqueda,hijoActual);
+            nuevo_valor = estadoHijo->utilidad;
+            if(mejor_valor < nuevo_valor){
+                mejor_sucesor = l_recuperar(sucesores, cursor);
+                mejor_valor = nuevo_valor;
+            }
+            cursor = l_siguiente(sucesores, cursor);
+        }
+        diferencia_estados(estado_actual, (tEstado) a_recuperar(b->arbol_busqueda, mejor_sucesor), x, y);
 
-    ///Guardo en una variable auxiliar la lista de hijos de la raiz del arbol encontrado en la estructura busqueda adversaria.
-    tLista movimientos=a_hijos(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
-
-    ///Guardo en una variable auxiliar la primera posicion de la lista anteriormente guardada.
-    tPosicion inicio=l_primera(movimientos);
-
-    ///Guardo en una variable auxiliar el elemento del elemento anteriormente mencionado.
-    tNodo nodoActual=(tNodo)l_recuperar(movimientos,inicio);
-
-    tEstado estadoActual=a_recuperar(b->arbol_busqueda,nodoActual);
-
-    ///Modifico el valor de la variable auxiliar a un puntero a la estructura estado con el elemento del elemento anteriormente mencionado.
-    mayorUtilidad=(tEstado)estadoActual;
-
-    ///Recorro la lista hasta que no tenga mas posiciones.
-    for(int i=0;i<l_longitud(movimientos)-1;i++){
-
-        ///Si la utilidad de la estructura estado de mayorUtilidad es menor a la utilidad de la estructura estado del estado actual modifico mayorUtilidad con el puntero de estado actual.
-        if(mayorUtilidad->utilidad<estadoActual->utilidad)
-            mayorUtilidad=estadoActual;
-
-        ///Avanzo en la lista a la siguiente posicion y actualizo los valores de las variables que guardaban datos de la anterior posicion.
-        inicio=l_siguiente(movimientos,inicio);
-        nodoActual=l_recuperar(movimientos,inicio);
-        estadoActual=(tEstado)a_recuperar(b->arbol_busqueda,nodoActual);
-    }
-    ///Guardo en una variable auxiliar el elemento de la raiz de la estructura arbol de busqueda pasada por parametro.
-    tEstado raiz=(tEstado)a_recuperar(b->arbol_busqueda,a_raiz(b->arbol_busqueda));
-
-    ///Utilizo la funcion diferencia de estados con la variable auxiliar anteriormente guardada, la ultima mayorUtilidad conseguida en la lista y los punteros a enteros pasados por parametro.
-    diferencia_estados(raiz,mayorUtilidad,x,y);
 }
 
-/**
->>>>>  A IMPLEMENTAR   <<<<<
-**/
 void destruir_busqueda_adversaria(tBusquedaAdversaria * b){
     ///Destruyo el arbol encontrado dentro de la estructura busqueda adversaria pasada por paramtero.
     a_destruir(&(*b)->arbol_busqueda,fElimBusq);
@@ -210,7 +193,6 @@ static void ejecutar_min_max(tBusquedaAdversaria b){
 }
 
 /**
->>>>>  A IMPLEMENTAR   <<<<<
 Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir del estado almacenado en N.
 - A referencia al árbol de búsqueda adversaria.
 - N referencia al nodo a partir del cual se construye el subárbol de búsqueda adversaria.
@@ -223,7 +205,6 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     ///Ejecuto la funcion minimax pasando por parametro el elemento del nodo anteriormente guardado,el entero que identifica al jugador y dos variables que identifican el valor de utilidad.
    //Declaracion de variables.
     tEstado estado=n->elemento;
-   // int mejorValorSucesores;
     tLista sucesores;
     tPosicion posActualSucesores;
     tPosicion finSucesores;
@@ -231,15 +212,11 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     int encontro = 0;
 
     ///Si es un estado final devuelve la utilidad.
-    int val=valor_utilidad(estado,jugador_max);
-    if(val==IA_GANA_MAX || val==IA_EMPATA_MAX || val==IA_PIERDE_MAX){
-        estado->utilidad = val;
-    }
-    else{
+    estado->utilidad=valor_utilidad(estado,jugador_max);
+    if(estado->utilidad==IA_NO_TERMINO){
         ///Si esJugadorMax !=0 significa que es un estado max.
         if(es_max){
             ///Inicializo las variables.
-           // mejorValorSucesores = IA_INFINITO_NEG;
             sucesores = estados_sucesores(estado,jugador_max);
             posActualSucesores = l_primera(sucesores);
             finSucesores = l_fin(sucesores);
@@ -248,9 +225,9 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
                     ///Recupero el estado de la posicion de la lista de hijos.
                     sucesorAct = (tEstado) l_recuperar(sucesores,posActualSucesores);
                     ///Accedo a una instancia recusiva con el estado hijo correspondiente a  la pos actual de la lista de hijos cambiando que ahora es un estado min.
+                    sucesorAct->utilidad=valor_utilidad(sucesorAct,jugador_max);
                     tNodo hijoActual = a_insertar(a,n,NULL,sucesorAct);
                     crear_sucesores_min_max(a,hijoActual,0,alpha,beta,jugador_max,jugador_min);//Este esta bien.Creo, le paso 0 para que vaya al else.
-                    printf("%i\n",sucesorAct->utilidad);
                     ///Si la utilidad del hijo es mayor a la anteriormente calculada la reemplazo por el nuevo valor.
                     tEstado estadoSucesor = hijoActual->elemento;
                     //if(estadoSucesor->utilidad<mejorValorSucesores)
@@ -266,12 +243,10 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
                     posActualSucesores = l_siguiente(sucesores,posActualSucesores);
             }
             estado->utilidad = alpha;
-            l_destruir(&sucesores,f_no_eliminar);
         }
         ///Si esJugadorMax =0 significa que es un estado min.
         else{
             ///Inicializo las variables.
-           // mejorValorSucesores = IA_INFINITO_POS;
             sucesores = estados_sucesores(estado,jugador_min);
             posActualSucesores = l_primera(sucesores);
             finSucesores = l_fin(sucesores);
@@ -281,12 +256,10 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
                     sucesorAct = (tEstado) l_recuperar(sucesores,posActualSucesores);
                     ///Accedo a una instancia recusiva con el estado hijo correspondiente a  la pos actual de la lista de hijos cambiando que ahora es un estado max.
                     tNodo hijoActual =a_insertar(a,n,NULL,sucesorAct);
+                    sucesorAct->utilidad=valor_utilidad(sucesorAct,jugador_max);
                     crear_sucesores_min_max(a,hijoActual,1,alpha,beta,jugador_max,jugador_min);//Este le paso para que en el sig vaya al if y no al else
                     ///Si la utilidad del hijo es menor a la anteriormente calculada la reemplazo por el nuevo valor.
                     tEstado estadoSucesor=hijoActual->elemento;
-                    //if(caca->utilidad>mejorValorSucesores){
-                    //    mejorValorSucesores = caca->utilidad;
-                    // }
                     ///Si beta es mayor al nuevo valor de utilidad actualizo el valor de alpha con el nuevo valor de utilidad.
                     if(estadoSucesor->utilidad<beta)
                         beta = estadoSucesor->utilidad;
@@ -298,11 +271,9 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
                     posActualSucesores = l_siguiente(sucesores,posActualSucesores);
             }
             estado->utilidad = beta;
-            l_destruir(&sucesores,f_no_eliminar);
         }
+    l_destruir(&sucesores,f_no_eliminar);
     }
-    printf("%i",alpha);
-
 }
 
 int gano(tEstado e, int ficha){
@@ -404,7 +375,6 @@ int gano(tEstado e, int ficha){
     return IA_NO_TERMINO;
 }
 /**
->>>>>  A IMPLEMENTAR   <<<<<
 Computa el valor de utilidad correspondiente al estado E, y la ficha correspondiente al JUGADOR_MAX, retornado:
 - IA_GANA_MAX si el estado E refleja una jugada en el que el JUGADOR_MAX ganó la partida.
 - IA_EMPATA_MAX si el estado E refleja una jugada en el que el JUGADOR_MAX empató la partida.
@@ -509,7 +479,6 @@ static int valor_utilidad(tEstado e, int jugador_max){
 }
 
 /**
->>>>>  A IMPLEMENTAR   <<<<<
 Computa y retorna una lista con aquellos estados que representan estados sucesores al estado E.
 Un estado sucesor corresponde a la clonación del estado E, junto con la incorporación de un nuevo movimiento
 realizado por el jugador cuya ficha es FICHA_JUGADOR por sobre una posición que se encuentra libre en el estado E.
@@ -538,7 +507,6 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
                 ///A la posicion de la grilla del estado auxiliar le asigno la variable ficha_jugador que es pasada por parametro.
                 aux->grilla[i][j]=ficha_jugador;
                 ///Declaro una variable y le asigno un numero aleatorio.
-                srand(time(NULL));
                 int r=rand();
                 ///Inserto en una posicion aleatoria a los hijos de la lista sucesores.
                 if((r%2)==0){
@@ -555,7 +523,6 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
 }
 
 /**
->>>>>  A IMPLEMENTAR   <<<<<
 Inicializa y retorna un nuevo estado que resulta de la clonación del estado E.
 Para esto copia en el estado a retornar los valores actuales de la grilla del estado E, como su valor
 de utilidad.
