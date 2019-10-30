@@ -44,24 +44,24 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e)
         exit(ARB_ERROR_MEMORIA);
 
     tLista hijosI;
-    crear_lista(&hijosI); // creo la lista de hijos que va a tener el nodo insertado
+    crear_lista(&hijosI); /// creo la lista de hijos que va a tener el nodo insertado
     ret->hijos=hijosI;
-    ret->padre=np;        //le asigno su nuevo padre
-    ret->elemento=e;      //le asigno su nuevo elemento
+    ret->padre=np;        ///le asigno su nuevo padre
+    ret->elemento=e;      ///le asigno su nuevo elemento
 
-    tLista hijosPadre=np->hijos;   //guardo la lista de hijos del padre
-    tPosicion hermanoFin = l_fin(hijosPadre); // guardo el ultimo hijo del padre
+    tLista hijosPadre=np->hijos;   ///guardo la lista de hijos del padre
+    tPosicion hermanoFin = l_fin(hijosPadre); /// guardo el ultimo hijo del padre
 
-    if(nh==NULL){  //si el nodo hermano es nulo inserto al final
+    if(nh==NULL){  ///si el nodo hermano es nulo inserto al final
         l_insertar(hijosPadre,hermanoFin,ret);
     }
 
     else{
-        if((nh->padre)!=np)  //si nh no es un hijo del padre error
+        if((nh->padre)!=np)  ///si nh no es un hijo del padre error
             exit(ARB_POSICION_INVALIDA);
 
         else{
-            tPosicion hijoAux=l_primera(hijosPadre); //tomo al primer hijo del padre
+            tPosicion hijoAux=l_primera(hijosPadre); ///tomo al primer hijo del padre
             int i=0;
             int parar=l_longitud(hijosPadre);
             ///Mientras no encuentre al nodo nh,recorro la lista.

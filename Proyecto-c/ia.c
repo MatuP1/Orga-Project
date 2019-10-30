@@ -216,7 +216,10 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     l_destruir(&sucesores,f_no_eliminar);
     }
 }
-
+/**
+    Calcula el valor utilidad de un estado de partida respecto del jugador max
+    Retorna IA_GANA_MAX si gana max, IA_PIERDE_MAX si pierde y IA_EMPATA_MAX si hay empate.
+*/
 static int valor_utilidad(tEstado e, int jugador_max){
     ///Retorno el entero conseguido al ejecutar la funcion gano con el estado pasado por parametro
     ///y la variable que representa al jugador tambien pasada por parametro.

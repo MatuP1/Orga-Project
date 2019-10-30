@@ -45,6 +45,9 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
     }
 }
 
+/**
+    funcion que devuelve 1 si la ficha enviada gano y 0 si no
+*/
 int ganoP(tTablero t, int ficha){
     int gano=0;
     int i=0;
