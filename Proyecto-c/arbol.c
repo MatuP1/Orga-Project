@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 void fnoElminar(void * nada){}
-void (*fEliminarUsuario)(tElemento);
+void (*fEliminarDest)(tElemento);
 void auxDestruir(tElemento elemento);
 
 void crear_arbol(tArbol* a)
@@ -157,7 +157,7 @@ void a_eliminar(tArbol a, tNodo n, void(* fEliminar)(tElemento))
 
 void a_destruir(tArbol * a, void (*fEliminar)(tElemento)) {
     ///Guardo en una variable auxiliar la funcion para eliminar elementos.
-    fEliminarUsuario = fEliminar;
+    fEliminarDest = fEliminar;
     ///Guardo en una variable auxiliar la lista de hijos de la raiz del arbol dado.
     tLista hijos = (*a)->raiz->hijos;
     ///Destruyo la lista pasando como parametro las direcciones de memoria de la lista de hijos de la raiz del arbol dado y la funcion auxDestruir.
@@ -170,20 +170,20 @@ void a_destruir(tArbol * a, void (*fEliminar)(tElemento)) {
     (*a)->raiz = NULL;
     free((*a));
     a = NULL;
-    fEliminarUsuario = NULL;
+    fEliminarDest = NULL;
 
 }
 void auxDestruir(tElemento elemento){
     ///Guardo en una variable auxiliar el elemento dado y lo casteo.
-    tNodo nodo_borrar = (tNodo) elemento;
+    tNodo aEliminar = (tNodo) elemento;
     ///Destruyo la lista pasando como parametro la lista de hijos de la variable auxiliar previamente guardada y la funcion auxDestruir.
-    l_destruir(&nodo_borrar->hijos, &auxDestruir);
+    l_destruir(&aEliminar->hijos, &auxDestruir);
     ///Elimino el elemento del nodo previamente guardado.
-    fEliminarUsuario(nodo_borrar->elemento);
+    fEliminarDest(aEliminar->elemento);
     ///Libero la memoria.
-    nodo_borrar->elemento = NULL;
-    nodo_borrar->padre = NULL;
-    free(nodo_borrar);
+    aEliminar->elemento = NULL;
+    aEliminar->padre = NULL;
+    free(aEliminar);
 }
 
 tElemento a_recuperar(tArbol a, tNodo n)
