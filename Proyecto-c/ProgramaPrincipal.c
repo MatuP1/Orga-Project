@@ -205,7 +205,7 @@ int main(){
                 printActualGame(tab);
             }
             ///turno maquina 2
-            if(part->turno_de == PART_JUGADOR_2 && estadoPartida==PART_MOVIMIENTO_OK){
+            if(part->turno_de == PART_JUGADOR_2){
                 ///Creo el arbol de busqueda adversaria.
                 crear_busqueda_adversaria(&maqBusqueda,part);
                 ///Le pido el proximo movimiento a la maquina y realizo el movimiento.
@@ -228,7 +228,8 @@ int main(){
     }
     ///Finalizo la partida.
     finalizar_partida(&part);
-
+    printf("\npresione cualquier tecla para terminar\n");
+    scanf("%s",nombreJugador1);
     return 0;
 }
 ///metodo que imprime las columnas de los extremos segun corresponda
