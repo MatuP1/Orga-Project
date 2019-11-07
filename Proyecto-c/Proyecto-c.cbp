@@ -33,6 +33,34 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Fuentes/TestArbol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Fuentes/TestGeneral.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Fuentes/TestLista.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Fuentes/arbol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Fuentes/arbol.h" />
+		<Unit filename="Fuentes/ia.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Fuentes/ia.h" />
+		<Unit filename="Fuentes/lista.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Fuentes/lista.h" />
+		<Unit filename="Fuentes/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Fuentes/partida.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Fuentes/partida.h" />
 		<Unit filename="ProgramaPrincipal.c">
 			<Option compilerVar="CC" />
 		</Unit>
